@@ -14,11 +14,11 @@
       email: "osamani2@illinois.edu",
     ),
     (
-      name: "Author 2",
-      department: [Department 2],
+      name: "Praneeth Shivashankarappa",
+      department: [Department of Civil and Environmental Engineering],
       organization: [University of Illinois Urbana-Champaign],
       location: [Urbana, IL, USA],
-      email: "author2@illinois.edu",
+      email: "ps104@illinois.edu",
     ),
     (
       name: "Kazi Ishat Mushfiq",
