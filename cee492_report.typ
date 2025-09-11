@@ -7,11 +7,11 @@
   ],
   authors: (
     (
-      name: "Author 1",
-      department: [Department 1],
+      name: "Osama Ibrahim",
+      department: [Department of Civil and Environmental Engineering],
       organization: [University of Illinois Urbana-Champaign],
       location: [Urbana, IL, USA],
-      email: "author1@illinois.edu",
+      email: "osamani2@illinois.edu",
     ),
     (
       name: "Author 2",
