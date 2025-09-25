@@ -27,6 +27,13 @@
       location: [Urbana, IL, USA],
       email: "mushfiq2@illinois.edu",
     ),
+    (
+      name: "Georg Bauer",
+      department: [Department of Civil and Environmental Engineering],
+      organization: [University of Illinois Urbana-Champaign],
+      location: [Urbana, IL, USA],
+      email: "georgb2@illinois.edu",
+    ),
   ),
   index-terms: ("Optional", "Keywords", "Here"),
   bibliography: bibliography("refs.bib"),
