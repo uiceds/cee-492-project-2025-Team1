@@ -47,7 +47,7 @@ The dataset has no missing values and is widely recognized in the civil engineer
 
 #v(0.75em)
 
-#text(smallcaps: true)[Variables included in the dataset:]
+*Variables included in the dataset:*
 
 - Cement (kg/m³)  
 - Blast Furnace Slag (kg/m³)  
@@ -60,7 +60,7 @@ The dataset has no missing values and is widely recognized in the civil engineer
 
 #v(0.5em)
 
-#text(smallcaps: true)[Target variable:]
+*Target variable:*
 
 - Concrete Compressive Strength (MPa)
 
