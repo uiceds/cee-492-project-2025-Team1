@@ -3,12 +3,7 @@
 #show: ieee.with(
   title: [Predicting Concrete Compressive Strength using Machine Learning],
   abstract: [
-    This project investigates the prediction of concrete compressive strength using machine learning models.
-    We use the Concrete Compressive Strength dataset from the UCI Machine Learning Repository, which includes
-    1,030 experimental data points with 8 input variables (cement, slag, fly ash, water, superplasticizer,
-    coarse aggregate, fine aggregate, and curing age) and one output (compressive strength in MPa).
-    Our study compares linear regression, decision tree regression, and neural networks to determine the
-    most effective approach for capturing the nonlinear relationships governing concrete strength development.
+      This project investigates the prediction of concrete compressive strength using machine learning models. We use the         Concrete Compressive Strength dataset from the UCI Machine Learning Repository, which contains 1,030 experimental           data points with eight input variables (cement, blast furnace slag, fly ash, water, superplasticizer, coarse                aggregate, fine aggregate, and curing age) and one output variable (compressive strength in MPa). Our study compares        linear regression, decision tree regression, and neural networks to determine the most effective approach for               capturing the nonlinear relationships that govern the development of concrete strength.
   ],
   authors: (
     (
@@ -45,7 +40,10 @@
 )
 
 = Dataset Description
-Learning Repository @uci-dataset. Noting that, this data came from lab experiments done by Prof. I-Cheng Yeh. He donated it to UCI back in 2007. The whole point was to look into high-performance concrete @yeh2007. The dataset has measurements for all the ingredients in the concrete mix. It also includes the age of the concrete. Those get paired up with the final compressive strength. In total, there are 1030 data points. Each one is an instance. You get 9 variables overall. Eight of them are features, the input variables. Then there is one target, the output variable. No missing values at all for any of the instances. The data comes in a structured table, as CSV file. Every row stands for one concrete sample. Now, compressive strength for concrete turns into a regression problem. The goal here is to predict that compressive strength value. It's measured in megapascals. You pull that from the inputs.
+The Concrete Compressive Strength dataset originates from laboratory experiments conducted by Prof. I-Cheng Yeh, who donated it to the UCI Machine Learning Repository in 2007 to support research on high-performance concrete @yeh2007, @uci-dataset. It contains measurements of the concrete mix ingredients and the age of the concrete, paired with the corresponding compressive strength. In total, the dataset includes 1,030 data points, each representing one concrete sample. There are nine variables: eight input features (cement, blast furnace slag, fly ash, water, superplasticizer, coarse aggregate, fine aggregate, and age) and one output variable (compressive strength in megapascals). All ingredient quantities are reported per cubic meter of concrete mix, and the compressive strength is recorded as a continuous variable representing the capacity of concrete to withstand loads that act to compress it.\
+
+While strength typically increases with curing age, the relationship is highly nonlinear and strongly influenced by the proportions of the mix components. The dataset has no missing values, is provided in a structured tabular format (CSV file) with each row corresponding to a unique sample, and is widely recognized in both the civil engineering and machine learning communities as a benchmark for modeling concrete strength. For our project, we will obtain the dataset directly from the UCI Machine Learning Repository @uci-dataset, ensuring a reliable and well-documented source.\
+
 *Variables included in the dataset:*
 - Cement (kg/m³)  
 - Blast Furnace Slag (kg/m³)  
@@ -54,12 +52,10 @@ Learning Repository @uci-dataset. Noting that, this data came from lab experimen
 - Superplasticizer (kg/m³)  
 - Coarse Aggregate (kg/m³)  
 - Fine Aggregate (kg/m³)  
-- Age (days, from 1–365)  
+- Age (days, from 1–365)\  
 
 *Target variable:*
 - Concrete Compressive Strength (MPa)
-
-All ingredient quantities are given per cubic meter of concrete mix. The compressive strength is the capacity of the concrete to withstand loads that tend to compress it (push it together). Concrete strength generally increases with age as the concrete cures, but the relationship is highly nonlinear and depends on the mix proportions. This dataset is well-known in the civil engineering and machine learning communities for modeling concrete strength and has been used in prior research. We will obtain the dataset from the UCI repository @uci-dataset, which ensures we have a reliable source of the data.
 
 
 = Sample Data Preview
@@ -105,18 +101,14 @@ Table I shows a preview of the dataset, showing the first 10 rows, then skipping
 = Project Proposal
 
 == Planned Approach
-In this project, a concrete data set will be analyzed from a data science perspective. Techniques learnt during the CEE 492 class will be utilized to do exploratory data analysis, a Machine learning model, and look into how each ingredient from the dataset affects the output result of the compressive strength. That means getting a feel for the data distribution and how the variables connect with each other. 
-First step will be making sure our data set is tidy enough for analysis, and then we will figure out and visualize the different main trends or patterns. For instance, we can figure out the relation between the mix age and its effect on achieved strength. To achieve that, principal component analysis (PCA) will be conducted as it will help to see the variance across the input variables, and may eliminate some dimensions if needed.
-Once that's done, the exploratory tasks, we'll move on to building predictive models for the compressive strength. We'll kick things off with multiple linear regression as our baseline. After that, we'll stack it up against more complicated ones, say a decision tree regression model and maybe a neural network. 
-Finally, the trained models will be examined against available data to validate the prediction of the model. Metrics, such as the mean squared error or R-squared, will be evaluated to assess the reliability of the model.
+In this project, the Concrete Compressive Strength dataset will be analyzed from a data science perspective. Techniques learned in CEE 492 will be applied to perform exploratory data analysis, develop machine learning models, and investigate how each ingredient in the dataset influences the resulting compressive strength. This begins with ensuring the dataset is properly structured for analysis, followed by examining the distributions of the variables and their relationships. For example, we will explore how curing age affects achieved strength. Principal Component Analysis (PCA) will also be employed to assess variance across the input variables and potentially reduce dimensionality.
+
+After the exploratory phase, we will develop predictive models for compressive strength. Multiple linear regression will serve as the baseline, against which we will compare more advanced approaches such as decision tree regression and neural networks. Finally, the trained models will be validated using the available data, with performance evaluated through metrics such as mean squared error and the coefficient of determination (R-squared).
 
 == Relevance
+Compressive strength is one of the most important properties of a concrete mix, and understanding the relationship between mix design and strength has long been a central focus in civil engineering. Traditionally, strength has been estimated using empirical equations provided in design codes and technical literature. While useful, these equations can be limited in accuracy, time-consuming to apply, and often require laboratory testing for validation.
 
-The compressive strength is one of the most important characteristics of a concrete mix, and figuring out the relation between the mix design and the strength was always of high importance in civil engineering over the past years.
-The strength can be estimated based on available empirical equations in different codes available in the literature. However, these equations tend to be challenging at some point, and are not the fastest way to get accurate estimations. Also, Lab testing may be required to validate the results.
-In this project, machine learning algorithms are created and checked for their reliability, and the most suitable model will be selected based on the dataset used.
-This created model will help as a useful, fast and reliable method of estimating the mix strength with different parameters and different testing ages.
-Our deliverables include data analysis. Developing and comparing multiple models. Discussing the results. It shows data science applied to real civil engineering problems.
+In this project, we will apply machine learning algorithms to evaluate their reliability in predicting compressive strength, with the goal of selecting the most suitable model for the dataset. Such a model offers a fast, efficient, and reliable alternative for estimating concrete strength across different mix proportions and curing ages. Our deliverables will include exploratory data analysis, the development and comparison of multiple predictive models, and a discussion of the results, demonstrating the application of data science techniques to a real-world civil engineering problem.
 
 == Deliverables  
 - Exploratory analysis  
