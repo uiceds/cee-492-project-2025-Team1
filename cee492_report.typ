@@ -1,9 +1,10 @@
 #import "@preview/charged-ieee:0.1.4": ieee
+#set par(spacing: 1em)
 
 #show: ieee.with(
   title: [Predicting Concrete Compressive Strength using Machine Learning],
   abstract: [
-      This project investigates the prediction of concrete compressive strength using machine learning models. We use the         Concrete Compressive Strength dataset from the UCI Machine Learning Repository, which contains 1,030 experimental           data points with eight input variables (cement, blast furnace slag, fly ash, water, superplasticizer, coarse                aggregate, fine aggregate, and curing age) and one output variable (compressive strength in MPa). Our study compares        linear regression, decision tree regression, and neural networks to determine the most effective approach for               capturing the nonlinear relationships that govern the development of concrete strength.
+This project investigates the prediction of concrete compressive strength using machine learning models. We use the Concrete Compressive Strength dataset from the UCI Machine Learning Repository, which contains 1,030 experimental data points with eight input variables (cement, blast furnace slag, fly ash, water, superplasticizer, coarse aggregate, fine aggregate, and curing age) and one output variable (compressive strength in MPa). Our study compares linear regression, decision tree regression, and neural networks to determine the most effective approach for capturing the nonlinear relationships that govern the development of concrete strength.
   ],
   authors: (
     (
@@ -40,9 +41,9 @@
 )
 
 = Dataset Description
-The Concrete Compressive Strength dataset originates from laboratory experiments conducted by Prof. I-Cheng Yeh, who donated it to the UCI Machine Learning Repository in 2007 to support research on high-performance concrete @yeh2007, @uci-dataset. It contains measurements of the concrete mix ingredients and the age of the concrete, paired with the corresponding compressive strength. In total, the dataset includes 1,030 data points, each representing one concrete sample. There are nine variables: eight input features (cement, blast furnace slag, fly ash, water, superplasticizer, coarse aggregate, fine aggregate, and age) and one output variable (compressive strength in megapascals). All ingredient quantities are reported per cubic meter of concrete mix, and the compressive strength is recorded as a continuous variable representing the capacity of concrete to withstand loads that act to compress it.\
+The Concrete Compressive Strength dataset originates from laboratory experiments conducted by Prof. I-Cheng Yeh, who donated it to the UCI Machine Learning Repository in 2007 to support research on high-performance concrete @yeh2007, @uci-dataset. It contains measurements of the concrete mix ingredients and the age of the concrete, paired with the corresponding compressive strength. In total, the dataset includes 1,030 data points, each representing one concrete sample. There are nine variables: eight input features (cement, blast furnace slag, fly ash, water, superplasticizer, coarse aggregate, fine aggregate, and age) and one output variable (compressive strength in megapascals). All ingredient quantities are reported per cubic meter of concrete mix, and the compressive strength is recorded as a continuous variable representing the capacity of concrete to withstand loads that act to compress it.
 
-While strength typically increases with curing age, the relationship is highly nonlinear and strongly influenced by the proportions of the mix components. The dataset has no missing values, is provided in a structured tabular format (CSV file) with each row corresponding to a unique sample, and is widely recognized in both the civil engineering and machine learning communities as a benchmark for modeling concrete strength. For our project, we will obtain the dataset directly from the UCI Machine Learning Repository @uci-dataset, ensuring a reliable and well-documented source.\
+While strength typically increases with curing age, the relationship is highly nonlinear and strongly influenced by the proportions of the mix components. The dataset has no missing values, is provided in a structured tabular format (CSV file) with each row corresponding to a unique sample, and is widely recognized in both the civil engineering and machine learning communities as a benchmark for modeling concrete strength. For our project, we will obtain the dataset directly from the UCI Machine Learning Repository @uci-dataset, ensuring a reliable and well-documented source.
 
 *Variables included in the dataset:*
 - Cement (kg/m³)  
