@@ -37,13 +37,23 @@ end
 begin
 	
 ### 4️⃣ Histograms
-histogram_plot = plot(layout=(3,3), size=(900,700))
+	histogram_plot = plot(
+    layout = (4, 2),
+    size = (1000, 700),
+    titlefont = font(12, "Times"),
+    guidefont = font(12, "Times"),
+    tickfont = font(12, "Times"),
+    legend = false,
+    grid = false,
+    background_color = :white
+)
+
 for (i, col) in enumerate(names(df)[1:end-1])
     histogram!(histogram_plot, df[!, col], bins=20, title=col, subplot=i)
 end
 histogram_plot
-savefig(histogram_plot, "histograms.png")  # export for Typst
-
+savefig(histogram_plot, "histograms.png");  # export for Typst
+histogram_plot
 end
 
 # ╔═╡ 2aad2a7f-e723-4a4b-bf47-82c4c4c180cb
@@ -51,46 +61,161 @@ begin
 	
 ### 5️⃣ Scatter Plots vs Target
 target = names(df)[end]
-scatter_plot = plot(layout=(3,3), size=(900,700))
+scatter_plot =  plot(
+    layout = (4, 2),
+    size = (1000, 900),
+    titlefont = font(12, "Arial"),
+    guidefont = font(12, "Arial"),
+    tickfont = font(12, "Arial"),
+    legend = false,
+    grid = false,
+	subplot_margin = 4,
+    background_color = :white
+)
 for (i, col) in enumerate(names(df)[1:end-1])
-    scatter!(scatter_plot, df[!, col], df[!, target], xlabel=col, ylabel=target, title="$col vs $target", subplot=i)
+    scatter!(scatter_plot, df[!, col], df[!, target], xlabel=col, ylabel="Strength", title="$col vs Strength", subplot=i)
 end
 scatter_plot
 savefig(scatter_plot, "scatter.png")
+scatter_plot
 end
 
 # ╔═╡ eed192d4-4228-4cbb-89ea-41386fa024c2
 begin
 	
 ### 6️⃣ Correlation Heatmap
+# Compute correlation matrix
 corr_matrix = cor(Matrix(df))
-corr_heatmap = heatmap(corr_matrix, xticks=(1:length(names(df)), names(df)),
-                       yticks=(1:length(names(df)), names(df)),
-                       c=:coolwarm, title="Correlation Matrix")
-corr_heatmap
+labels = names(df)
+
+corr_heatmap = heatmap(
+    corr_matrix,
+    xticks = (1:length(labels), labels),
+    yticks = (1:length(labels), labels),
+    c = :coolwarm,
+    title = "Correlation Matrix",
+    titlefont = font(12, "Arial"),
+    guidefont = font(12, "Arial"),
+    tickfont = font(12, "Arial"),
+    colorbar_title = "r",
+    xrotation = 60,   # ✅ rotate x-axis labels
+    yrotation = 0,    # keep y labels horizontal
+    aspect_ratio = 1,
+    size = (800, 1000),
+    background_color = :white,
+    grid = false
+)
+
 savefig(corr_heatmap, "corr.png")
+corr_heatmap
 end
 
 # ╔═╡ 9cdec2b6-e3ac-4ac0-8cc2-13ee031b12b4
 begin
 	### 7️⃣ Boxplots
-boxplot_plot = plot(layout=(3,3), size=(900,700))
-for (i, col) in enumerate(names(df)[1:end-1])
-    boxplot!(boxplot_plot, df[!, col], title=col, subplot=i)
+	# Define features (skip target column)
+features = names(df)[1:end-1]
+	
+# Create boxplot layout
+boxplot_plot = plot(
+    layout = (4, 2),
+    size = (1000, 1400),
+    titlefont = font(14, "Arial"),
+    guidefont = font(14, "Arial"),
+    tickfont = font(14, "Arial"),
+    legend = false,
+    grid = false,
+    background_color = :white,
+)
+
+# Add boxplots for each feature
+for (i, col) in enumerate(features)
+    boxplot!(
+        boxplot_plot,
+        df[!, col],
+        title = col,
+        subplot = i,
+        fillcolor = :lightblue,
+        linecolor = :black,
+        whisker_width = 0.6,
+        outliercolor = :red,
+        alpha = 0.7
+    )
 end
-boxplot_plot
+
 savefig(boxplot_plot, "boxplot.png")
+boxplot_plot
 end
 
 # ╔═╡ caf7b639-8032-4777-beee-de76ec44f8b7
 begin
 ### 8️⃣ PCA
-X_standardized = (Matrix(df[:,1:end-1]) .- mean(Matrix(df[:,1:end-1]), dims=1)) ./ std(Matrix(df[:,1:end-1]), dims=1)
-pca_model = fit(PCA, X_standardized; maxoutdim=2)
-X_pca = MultivariateStats.transform(pca_model, X_standardized)
-pca_plot = scatter(X_pca[:,1], X_pca[:,2], xlabel="PC1", ylabel="PC2", title="PCA of Input Features")
-pca_plot
-savefig(pca_plot, "pca.png")
+
+    features1 = Matrix(df[:, 1:8])
+    output = df[:, end]
+    feature_names = names(df)[1:8]
+    
+    # Standardize features
+    features_standardized = (features1 .- mean(features1, dims=1)) ./ std(features1, dims=1)
+    
+    # Perform PCA
+    pca_model = fit(PCA, features_standardized', maxoutdim=2)
+    
+    # Get explained variance
+    explained_variance = principalvars(pca_model) / tvar(pca_model)
+    
+    # Transform data
+    projected_data = MultivariateStats.transform(pca_model, features_standardized')
+
+    
+    # Create plotting dataframe
+    pca_df = DataFrame(
+        PC1 = projected_data[1, :],
+        PC2 = projected_data[2, :],
+        Output = output
+    )
+    
+    # Main PCA scatter plot with improvements
+p1 = scatter(
+    pca_df.PC1, pca_df.PC2,
+    group=pca_df.Output,
+    xlabel="PC1 ($(round(explained_variance[1]*100, digits=1))% variance)",
+    ylabel="PC2 ($(round(explained_variance[2]*100, digits=1))% variance)",
+    title="PCA Projection - Colored by Output",
+	titlefont = font(14, "Arial"),
+    guidefont = font(14, "Arial"),
+    tickfont = font(14, "Arial"),
+    legend=false,
+    markersize=8,
+    markerstrokewidth=0.5,
+    alpha=0.8,             # Slight transparency to handle overlap
+    palette=:viridis       # Better color palette
+)
+
+# PCA loadings plot
+loadings = projection(pca_model)
+p2 = scatter(
+    feature_names, loadings[1, :],
+    xlabel="Features",
+    ylabel="Loading Value",
+    title="PCA Loadings - PC1 & PC2",
+	titlefont = font(14, "Arial"),
+    guidefont = font(14, "Arial"),
+    tickfont = font(14, "Arial"),
+    label="PC1",
+    markersize=8,
+    markerstrokewidth=0.5,
+    legend=:right,
+    rotation=45           # Rotate x labels for readability
+)
+
+scatter!(feature_names, loadings[2, :], label="PC2", markersize=8)
+
+# Combine plots
+plott = plot(p1, p2, layout=(1,2), size=(1400, 600))
+savefig(plott, "pca.png")
+plott
+
 end
 
 
