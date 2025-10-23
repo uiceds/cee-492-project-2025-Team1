@@ -39,8 +39,8 @@ This project investigates the prediction of concrete compressive strength using 
   index-terms: ("Concrete Compressive Strength", "Machine Learning", "Civil Engineering", "Regression Models"),
   bibliography: bibliography("refs.bib"),
 )
-
-= Dataset Description
+= Part (1): Project Selection and Proposal
+== Dataset Description
 The Concrete Compressive Strength dataset originates from laboratory experiments conducted by Prof. I-Cheng Yeh, who donated it to the UCI Machine Learning Repository in 2007 to support research on high-performance concrete @yeh2007, @uci-dataset. The dataset records the quantities of concrete mix ingredients and the curing age, together with the corresponding compressive strength as the output variable. In total, it includes 1030 samples in a CSV file, with each row representing one concrete mix. All ingredient quantities are reported per cubic meter of concrete, and the compressive strength is expressed as a continuous variable in megapascals (MPa), representing the material’s capacity to withstand compressive loads.
 
 The dataset has no missing values and is widely recognized in the civil engineering community as a benchmark for modeling concrete strength. For this project, we will obtain the dataset directly from the UCI Machine Learning Repository @uci-dataset, ensuring a reliable source. The variables included are listed below.
@@ -65,7 +65,7 @@ The dataset has no missing values and is widely recognized in the civil engineer
 - Concrete Compressive Strength (MPa)
 
 
-= Sample Data Preview
+== Sample Data Preview
 
 Table I provides representative entries from the Concrete Compressive Strength dataset, illustrating the input features and the output variable. Each row corresponds to one concrete mix, with ingredient quantities and age shown alongside the measured compressive strength in MPa.
 
@@ -100,47 +100,57 @@ Table I provides representative entries from the Concrete Compressive Strength d
 
 
 
-= Project Proposal
+== Project Proposal
 
-== Planned Approach
+=== Planned Approach
 In this project, the Concrete Compressive Strength dataset will be analyzed from a data science perspective. Techniques learned in CEE 492 will be applied to perform exploratory data analysis, develop machine learning models, and investigate how each ingredient in the dataset influences the resulting compressive strength. This begins with ensuring the dataset is properly structured for analysis, followed by looking at the distributions of the variables and their relationships. We also plan to explore whether Principal Component Analysis provides useful insights into correlations among the input variables.
 
 After the exploratory phase, we will develop predictive models for compressive strength. Multiple linear regression will serve as the baseline, against which we will compare more advanced approaches such as decision tree models and neural networks. Finally, we will test the trained models on the dataset and check how well they can predict compressive strength, using common accuracy measures.
 
-== Relevance
+=== Relevance
 Compressive strength is one of the most important properties of a concrete mix, and being able to estimate it accurately is essential in civil engineering, as it can help engineers decide whether a given mixture will meet the required strength for a project. Laboratory testing is the standard approach, but it can be time-consuming and resource-intensive. Empirical equations from design codes can be used as an alternative, but they often lack accuracy and flexibility across different mix proportions and curing conditions, since concrete compressive strength is a highly nonlinear function of both age and ingredient proportions. This creates a need for faster, more reliable methods of prediction.
 
 This project addresses that need by using machine learning to test how well different models can predict compressive strength. A good model can give faster and more consistent estimates of concrete strength for different mix proportions and curing ages, making it a useful tool in engineering practice. The project will also show which ingredients are most important and how curing age affects strength, helping to better understand the factors that influence concrete performance.
 
-== Deliverables
+=== Deliverables
 The deliverables include an exploratory analysis of the dataset, the development and testing of different models to predict compressive strength, a comparison of their performance, and a discussion of the results to show how mix design and curing age influence concrete strength.
 
 
-= Deliverable 2: Exploratory Data Analysis and Predictive Modeling Plan
+= Part (2): Exploratory Data Analysis and Predictive Modeling Plan
 
-== 1. Exploratory Data Analysis
+== Exploratory Data Analysis
 
-=== 1.1 Dataset Overview
-The Concrete Compressive Strength dataset contains 1030 samples with 8 input features and one output variable. As shown in Table (1).
+=== Dataset Overview
+The Concrete Compressive Strength dataset contains 1030 samples with 8 input features and one output variable. As shown in Table (I). And a comprehensive desception of data was mentioned earlier in part (1-A) of the study.
 
-=== 1.2 Summary Statistics
-#table(
-  columns: (3.5cm, 1.2cm, 1.2cm, 1.2cm, 1.2cm, 1.2cm),
-  align: center,
-  table.header(
-    [*Feature*], [*Min*], [*Max*], [*Mean*], [*Median*], [*StdDev*]
-  ),
-  [Cement (kg/m3)], [102.0], [540.0], [281.17], [272.9], [104.51],
-  [Blast Furnace Slag (kg/m3)], [0.0], [359.4], [73.9], [22.0], [86.28],
-  [Fly Ash (kg/m3)], [0.0], [200.1], [54.19], [0.0], [64.0],
-  [Water (kg/m3)], [121.75], [247.0], [181.57], [185.0], [21.36],
-  [Superplasticizer (kg/m3)], [0.0], [32.2], [6.2], [6.35], [5.97],
-  [Coarse Aggregate (kg/m3)], [801.0], [1145.0], [972.92], [968.0], [77.75],
-  [Fine Aggregate (kg/m3)], [594.0], [992.6], [773.58], [779.51], [80.18],
-  [Age (day)], [1], [365], [45.66], [28.0], [63.17]
+
+=== Summary Statistics
+In this part of the exploratory data analysis (EDA), a statistical analysis is conducted and summarized in Table (II). The dataset contains key input variables that influence the compressive strength of concrete, including the quantities of cement, supplementary cementitious materials (blast furnace slag and fly ash), water, superplasticizer, and aggregates, as well as the curing age. Table (II) summarizes the basic descriptive statistics, minimum, maximum, mean, median, and standard deviation, for each feature.
+
+These statistics serve as a solid basis to see the distribution and variability of the dataset. For example, a wide range of cement content (102–540 kg/m³), as well as testing age (1–365 days) can be noticed, which reflect the diversity in the dataset in terms of mix design and testing age. This variability is beneficial for a broader forecasting of performance, as well as a reliable model learning that is not only exclusive to specific small-range dataset. Also, the standard deviations shows the heterogeneity among samples, which reflects a potential nonlinear relationships. This type of data overview is required as a starting point in any EDA, as it helps to see the data variability, assess the existence of outliers, and address the variables correlations. These findings will enhance the future analysis and the building of the model itself.
+
+#figure(
+  caption: [Summary statistics of concrete mix features],
+  placement: none,
+  table(
+    columns: (3.5cm, 1.2cm, 1.2cm, 1.2cm, 1.2cm, 1.2cm),
+    align: center,
+    table.header(
+      [*Feature*], [*Min*], [*Max*], [*Mean*], [*Median*], [*StdDev*]
+    ),
+    [Cement (kg/m³)], [102.0], [540.0], [281.17], [272.9], [104.51],
+    [Blast Furnace Slag (kg/m³)], [0.0], [359.4], [73.9], [22.0], [86.28],
+    [Fly Ash (kg/m³)], [0.0], [200.1], [54.19], [0.0], [64.0],
+    [Water (kg/m³)], [121.75], [247.0], [181.57], [185.0], [21.36],
+    [Superplasticizer (kg/m³)], [0.0], [32.2], [6.2], [6.35], [5.97],
+    [Coarse Aggregate (kg/m³)], [801.0], [1145.0], [972.92], [968.0], [77.75],
+    [Fine Aggregate (kg/m³)], [594.0], [992.6], [773.58], [779.51], [80.18],
+    [Age (day)], [1], [365], [45.66], [28.0], [63.17]
+  )
 )
 
-=== 1.3 Data Visualizations
+
+=== Data Visualizations
 #figure(
   image("histograms.png", width: 80%),
   caption: [Histograms of input features]
@@ -166,7 +176,7 @@ The Concrete Compressive Strength dataset contains 1030 samples with 8 input fea
   caption: [PCA plot of input features]
 )
 
-== 2. Predictive Modeling Plan
+== Predictive Modeling Plan
 
 #list(
   [Baseline: Linear Regression],
