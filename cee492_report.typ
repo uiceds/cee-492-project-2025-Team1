@@ -180,7 +180,7 @@ Figure 4 presents the box plot of the input features, including each concrete mi
   caption: [Boxplots of input features]
 )
 
-Figure 5 presents Principal Component Analysis (PCA) results that summarize how the different input features collectively influence the variation in concrete data. The left plot shows that PC1 captures 28.5% of the total variance. The right plot shows PCA loadings. It quantifies how each original variable contributes to PC1 and PC2. The variables with larger loading values (absolute magnitude) have a stronger influence on the principal components. From the right plot, it is evident that the PC2 is more influenced by blast furnace slag, water, coarse aggregate contents, and age. These parameters have a negative influence on PC2. 
+Figure 5 presents Principal Component Analysis (PCA) results that summarize how the different input features collectively influence the variation in concrete data. The left plot shows that PC1 captures 28.5% of the total variance. The right plot shows the PCA loadings. It quantifies how each original variable contributes to PC1 and PC2. The variables with larger loading values (absolute magnitude) have a stronger influence on the principal components. From the right plot, it is evident that the PC2 is more influenced by blast furnace slag, water, coarse aggregate contents, and age. These parameters have a negative influence on PC2. 
 
 #figure(
   image("pca.png", width: 80%),
@@ -189,11 +189,10 @@ Figure 5 presents Principal Component Analysis (PCA) results that summarize how 
 
 == Predictive Modeling Plan
 
-#list(
-  [Baseline: Linear Regression],
-  [Advanced: Decision Tree, Random Forest, Neural Networks],
-  [Evaluation Metrics: R², RMSE, MAE],
-  [Cross-validation: k-fold (k=5 or 10)],
-  [Feature Importance Analysis]
-)
+Building on the findings of the EDA, which identified cement content, water-to-cement ratio, and curing age as the dominant factors influencing compressive strength, the predictive modeling phase aims to formalize these insights through feature selection and model development. The EDA revealed that the relationships between these parameters and strength are inherently nonlinear. For instance, strength increases asymptotically with curing age, decreases exponentially with higher water content, and depends on interactive effects between cement and water proportions. Capturing such nonlinearities requires models capable of representing complex dependencies beyond simple linear regression.
 
+A linear regression model will serve as the baseline, providing a transparent benchmark for comparison against more advanced machine learning approaches. Subsequently, decision tree and neural network models will be developed to capture the nonlinear effects observed in the data. Additionally, unsupervised methods such as k-means clustering may be applied to detect natural groupings among mix designs, aiding feature interpretation and potential model refinement.
+
+Model performance will be assessed using the coefficient of determination (R²), Root Mean Square Error (RMSE), and Mean Absolute Error (MAE). Cross-validation (k-fold) will be employed to ensure robustness and generalizability across different data subsets.
+
+Following this modeling plan will help develop models that can predict concrete strength more effectively and provide better insight into how mix proportions influence performance.
