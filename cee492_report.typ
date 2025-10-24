@@ -151,25 +151,34 @@ These statistics serve as a solid basis to see the distribution and variability 
 
 
 === Data Visualizations
+This section discusses the exploratory analysis of the given dataset in terms of histrogram, scatter plots, correlation heatmap, boxplots, and principal component analysis (PCA).
+
+Figure 1 shows the histograms of the input features. The X axis represents the dosage (mostly in Kg/m3 or days for age) and the Y axis represents the frequency. The most of the mix designs are using cement dosage of around 150 - 350 kg/m3. However, the mix design frequency reduces for cement dosage with higher than 400 kg/m3. The most of the mix designs have no blast furnace slag in the mix as there is a sharp spike of the ferquency at zero slag amount. The blast furnace slag histogram represents a zero inflated model. This zero inflated trend is also visible for superplasticizer and fly ash dosage indicating that most of the mix designs have no superplasticizer and fly ash. This behavior of the dataset can be better interpreted by combining the water and cement dosages. As the water dosage histogram shows a roughly bell-shaped distribution centered around 170 - 200 kg/m³, and the cement dosage ranges considerably between 150 - 350 kg/m³, it is evident that most of the mix designs use cement as the primary binder material instead of supplementary agents such as fly ash or slag. The water dosage also appears to supplement the demand for superplasticizers. The coarse aggregates represent a multi modal distribution representing different mix designs with distinct aggregate to cement ratio. The difference in maximum aggregate size in the mix design can also lead to variation in the distribution as larger aggregates lead to lower packing density and smaller required volume. The higher values ( higher than 800 kg/m3 ) of the coarse aggregate range is indicative of the mix design to be of structural concrete instead of mortar or grouts. A tall dominant peak in the concrete testing days histogram represents majority of concrete tests were done in early ages ( 1- 7 days). The frequency drops after around 28 days which is the standard reporting days for concrete compressive test result.
 #figure(
   image("histograms.png", width: 80%),
   caption: [Histograms of input features]
 )
 
+The scatter plots analyzing the influence of the input features on the compressive strength are shown in Figure 2. The strength increases with the increase in cement content. As cement is the primary binder, increasing cement dosage improves the compressive strength. However, beyond an optimum level ( around 400 kg/m3 ), excessive cement can reduce the compressive strength due to shrinkage and poor workability. The influence of blast furnace slag is scattered with no consistent trend. As slag acts as supplementary material, its effect on the compressive strength depends on the replacement ratio and curing age. The strength gain for slag is slow initially, but it can improve later due to pozzolonic activity. Most of the mixes have zero fly ash amount, while others show variable strengths for 50 - 150 kg/m3. A decreasing trend in the compressive strength is evident for the higher water dosage. Higher water content increases the workability, but it reduces the compressive strength due to greater porosity after hydration. The superplasticizer dosage is concentrated at a low dosage of around 0 -15 kg/m3. The superplasticizers improve flowability with a lower water-cement ratio and lead to higher strength. However, a higher amount of superplasticizers shows inconsistent effects. The coarse aggregate plot is scattered, and the strength variation is not significant. The fine aggregate data is mostly between 700-900 kg/m3. A higher amount of fine aggregates increases water demand and reduces strength. The scatter plot of the age of the test shows a clear increase in the compressive strength with the increase in the testing days, especially up to 90 days.
+
 #figure(
   image("scatter.png", width: 80%),
   caption: [Scatter plots of input features vs compressive strength]
 )
-
+The correlation heatmap in Figure 3 indicates that the compressive strength is most positively associated with cement content, testing age, and negatively associated with water content. This observation is consistent with the classical water-to-binder effect. Superplasticizers show a slightly positive association with the compressive strength. As the superplasticizers reduce the water demand as well as the water-to-binder ratio, the compressive strength increases. The aggregate contents exhibit weak correlations with compressive strength. The fine and coarse aggregates are negatively correlated due to the volumetric trade-off. The fly ash and slag are negatively correlated with the cement content, as these are used as a replacement for cement.
 #figure(
   image("corr.png", width: 80%),
   caption: [Correlation heatmap]
 )
 
+Figure 4 presents the box plot of the input features, including each concrete mix component and testing age. The cement content shows a consistent distribution centered around 280 - 300 kg/m3 with no outliers. On the other hand, the water content ranges between 150 to 200 kg/m3 with a few outliers. The fly ash and blast furnace slag exhibit a wide variation, indicating a diverse range of replacement ratios in the dataset. The superplasticizer content remains low in most mix designs, while a few extreme points represent highly flowable concrete. Here, the fine and coarse aggregates exhibit a moderate variability which reflects a balanced mix proportion. The testing age is skewed toward early ages, such as 28 days, with several long-term outliers.
+
 #figure(
   image("boxplot.png", width: 80%),
   caption: [Boxplots of input features]
 )
+
+Figure 5 presents Principal Component Analysis (PCA) results that summarize how the different input features collectively influence the variation in concrete data. The left plot shows that PC1 captures 28.5% of the total variance. The right plot shows PCA loadings. It quantifies how each original variable contributes to PC1 and PC2. The variables with larger loading values (absolute magnitude) have a stronger influence on the principal components. From the right plot, it is evident that the PC2 is more influenced by blast furnace slag, water, coarse aggregate contents, and age. These parameters have a negative influence on PC2. 
 
 #figure(
   image("pca.png", width: 80%),
