@@ -227,8 +227,195 @@ Based on our exploratory data analysis from Deliverable 2, we hypothesize that:
 - RMSE (Root Mean Square Error)
 - MAE (Mean Absolute Error)
 - 5-fold Cross-Validation
+== Model 1 - Linear Regression Model
+This section presents the development and evaluation of multiple linear regression models 
+for predicting the compressive strength of concrete using the dataset provided in 
+`Concrete_Data.xlsx`. The analysis was implemented in Julia using custom gradient descent 
+optimization, and included several preprocessing and feature-engineering techniques to 
+improve model performance.
 
-== Results
+=== Basic Linear Model
+The first model was a direct linear regression without any preprocessing or normalization.
+The model was trained using gradient descent to minimize the mean squared error (MSE) 
+between predicted and actual compressive strength values.
+
++ Equation of the model:
+$ hat(y) = x  beta $
+
++ Performance metrics:
+- R² and MSE values are reported in Table @tbl-basic-results.
+- The scatter plot in Figure @fig-basic-model shows the correlation between actual and predicted strengths.
+#figure(
+  image("figures-Linearregression-Osama/01_basic_model.png", width: 80%),
+  caption: [Standardized model performance: predicted vs actual normalized strengths.]
+) <fig-basic-model>
+
+#figure(
+  caption: [Performance metrics of the Basic Linear Model.],
+  placement: none,
+  table(
+    columns: (3.5cm, 3.5cm),
+    align: center,
+    table.header(
+      [*Metric*], [*Value*]
+    ),
+    [R²], [0.6108],
+    [MSE], [108.5376],
+  
+  )
+) <tbl-basic-results>
+
+
+
+=== Standardized Model
+The input and output variables were standardized to zero mean and unit variance before training.
+This improved the model’s convergence rate and numerical stability.
+
+#figure(
+  image("figures-Linearregression-Osama/02_standardized_model.png", width: 80%),
+  caption: [Standardized model performance: predicted vs actual normalized strengths.]
+) <fig-standardized>
+
+#figure(
+  caption: [Performance metrics of the Standardized Model.],
+  placement: none,
+  table(
+    columns: (3.5cm, 3.5cm),
+    align: center,
+    table.header(
+      [*Metric*], [*Value*]
+    ),
+    [R²], [0.6144],
+    [MSE], [0.3852],
+  
+  )
+) <tbl-stand-results>
+
+=== K-folds Cross Validation
+To evaluate the generalization performance of our linear regression model, we performed **4-fold blocked cross-validation**. In this method, the dataset is divided into \(k=4\) mutually exclusive folds. For each iteration, one fold is held out as the test set while the model is trained on the remaining \(k-1\) folds. The process is repeated until each fold has served once as the test set, and the performance metric is averaged across all folds.
+
+For the standardized model, the \(R^2\) scores obtained for each fold are as shwon in @tbl-kfold:
+#figure(
+  caption: [Performance metrics of the Standardized Model under K-Folds Cross Validation.],
+  placement: none,
+  table(
+    columns: (3.5cm, 3.5cm),
+    align: center,
+    table.header(
+      [*Fold*], [*R² Score*]
+    ),
+    [1], [0.4587],
+    [2], [0.4432],
+    [3], [0.4791],
+    [4], [0.4085],
+  )
+) <tbl-kfold>
+
+
+
+The **mean \(R^2\)** and **standard deviation** across the folds were calculated as in @tbl-kfold-AVG:
+#figure(
+  caption: [Mean and Std. of 4-fold Cross Validation],
+  placement: none,
+  table(
+    columns: (3.5cm, 3.5cm),
+    align: center,
+    table.header(
+      [*Metric*], [*Value*]
+    ),
+    [Mean \(R^2\)], [0.0.4474],
+    [Std \(R^2\)], [0.0298],
+  )
+) <tbl-kfold-AVG>
+
+
+
+These results indicate that the model exhibits **moderate predictive capability** on unseen data, with relatively low variability between folds. The k-fold cross-validation provides a robust estimate of model performance, reducing the risk of overfitting to any single subset of the data.
+=== Regularized Model (L1 - LASSO)
+To handle potential overfitting and feature sparsity, an L1 regularization term was added 
+to the cost function:
+
+
+$J(beta) = "MSE"(hat(y), y) + lambda norm(beta)_1$
+
+The resulting coefficients are shown in Figure @fig-l1-coeff, 
+and performance metrics in Table @tbl-l1-results.
+
+#figure(
+  image("figures-Linearregression-Osama/03_l1_coefficients.png", width: 80%),
+  caption: [L1-regularized (LASSO) coefficient magnitudes for each input feature.]
+) <fig-l1-coeff>
+
+#figure(
+  caption: [Performance metrics of the L1 Regularized Model.],
+  placement: none,
+  table(
+    columns: (3.5cm, 3.5cm),
+    align: center,
+    table.header(
+      [*Metric*], [*Value*]
+    ),
+    [R²], [0.6136],
+    [MSE], [0.3863],
+  
+  )
+) <tbl-l1-results>
+
+
+
+=== Feature Correlation and Collinearity
+The correlation matrix between input variables and the target strength was computed 
+to assess collinearity effects. The heatmap in Figure @fig-corr shows the pairwise correlations.
+
+#figure(
+  image("figures-Linearregression-Osama/04_correlation_heatmap.png", width: 100%),
+  caption: [Correlation heatmap showing relationships among all variables.]
+) <fig-corr>
+
+Highly collinear features (|r| > 0.8) were removed to create a simplified model with improved interpretability.  
+The performance of this model is shown in Figure @fig-no-collin.
+
+#figure(
+  image("figures-Linearregression-Osama/05_no_collinearity_model.png", width: 80%),
+  caption: [Regression model trained without collinear features.]
+) <fig-no-collin>
+
+=== PCA-Based Model
+Principal Component Analysis (PCA) was applied to reduce dimensionality.  
+The model was trained on the first eight principal components, explaining over 95% of the total variance.
+
+#figure(
+  image("figures-Linearregression-Osama/06_pca_model.png", width: 80%),
+  caption: [PCA-based regression model (8 components).]
+) <fig-pca>
+
+=== Engineered Feature Model
+Feature engineering was performed to capture meaningful ratios and combined terms such as 
+Water/Cement ratio, Total Binder, and Binder/Aggregate ratio.  
+This model achieved the highest performance as shown in Figure @fig-engineered.
+
+#figure(
+  image("figures-Linearregression-Osama/07_engineered_features_model.png", width: 80%),
+  caption: [Engineered feature regression model performance.]
+) <fig-engineered>
+
+=== Comparative Performance
+A comparison of the R² values for all models is shown in Figure @fig-comparison.
+The engineered-feature model yielded the best predictive accuracy, indicating that 
+domain-informed features significantly improved generalization.
+
+#figure(
+  image("figures-Linearregression-Osama/08_model_comparison.png", width: 90%),
+  caption: [Comparison of R² scores for all linear regression model variants.]
+) <fig-comparison>
+
+== Model 2 - Decision Tree
+
+== Model 3 - Random Forest
+
+== Model 4 - Neural Network
+
+== Summarized Results
 
 === Model Performance Comparison
 #table(
