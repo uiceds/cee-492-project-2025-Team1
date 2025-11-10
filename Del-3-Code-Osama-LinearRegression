@@ -173,7 +173,7 @@ begin
 end
 
 # ╔═╡ 4368c7d1-a221-462b-b93c-ba38bba43423
-# cross_validation
+# cross_validation function
 ### 3️⃣ CROSS-VALIDATION
 function blocked_groups(x, n_folds)
 	n = size(x, 1)
