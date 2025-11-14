@@ -446,7 +446,7 @@ Training configuration:
 - Learning rate: $ η = 0.001$  
 - Iterations: 5000  
 - Loss function:  
-$ text("MSE")(y, \hat{y}) = 1/n \sum (y_i - \hat{y}_i)^2 $
+$ text("MSE")(y, \hat{y}) = 1/n ∑ (y_i - \hat{y}_i)^2 $
 
 An 80/20 train–test split with a fixed random seed ensured reproducibility.
 
