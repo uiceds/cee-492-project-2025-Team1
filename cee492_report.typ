@@ -443,7 +443,7 @@ Training was performed using full-batch gradient descent with automatic differen
 
 Training configuration:
 
-- Learning rate: $\eta = 0.001$  
+- Learning rate: $ η = 0.001$  
 - Iterations: 5000  
 - Loss function:  
   $ \mathrm{MSE}(y, \hat{y}) = \frac{1}{n} \sum (y_i - \hat{y}_i)^2 $
