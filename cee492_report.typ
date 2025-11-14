@@ -215,18 +215,20 @@ Based on our exploratory data analysis from Deliverable 2, we hypothesize that:
 - Train-Test Split: 824 training, 206 testing (80-20 split)
 - Feature Engineering: Water-cement ratio, total binder content, aggregate-binder ratio
 - Standardization: Applied for regularized models and neural networks
+- Duplicate removal: All repeated rows were removed before modeling
 
 === Model Specifications
-1. **Linear Regression**: Baseline model with all features
-2. **Decision Tree**: Pruned with max depth control
-3. **Random Forest**: 100 trees, 70% feature sampling
-4. **Neural Network**: 3-layer architecture (11-16-8-1) with ReLU activation
+1. *Linear Regression*: Baseline model with all features
+2. *Decision Tree*: Pruned with max depth control
+3. *Random Forest*: 100 trees, 70% feature sampling
+4. *Neural Network*: Two-layer feed-forward architecture (8–10–1) using ReLU activation
 
 === Evaluation Metrics
 - R² (Coefficient of Determination)
 - RMSE (Root Mean Square Error)
 - MAE (Mean Absolute Error)
-- 5-fold Cross-Validation
+- 5-fold Cross-Validation (used for LR, DT, RF; not applied to the Neural Network)
+
 == Model 1 - Linear Regression Model
 This section presents the development and evaluation of multiple linear regression models 
 for predicting the compressive strength of concrete using the dataset provided in 
@@ -292,7 +294,7 @@ This improved the model’s convergence rate and numerical stability.
 ) <tbl-stand-results>
 
 === K-folds Cross Validation
-To evaluate the generalization performance of our linear regression model, we performed **4-fold blocked cross-validation**. In this method, the dataset is divided into \(k=4\) mutually exclusive folds. For each iteration, one fold is held out as the test set while the model is trained on the remaining \(k-1\) folds. The process is repeated until each fold has served once as the test set, and the performance metric is averaged across all folds.
+To evaluate the generalization performance of our linear regression model, we performed *4-fold blocked cross-validation*. In this method, the dataset is divided into \(k=4\) mutually exclusive folds. For each iteration, one fold is held out as the test set while the model is trained on the remaining \(k-1\) folds. The process is repeated until each fold has served once as the test set, and the performance metric is averaged across all folds.
 
 For the standardized model, the \(R^2\) scores obtained for each fold are as shwon in @tbl-kfold:
 #figure(
@@ -313,7 +315,7 @@ For the standardized model, the \(R^2\) scores obtained for each fold are as shw
 
 
 
-The **mean \(R^2\)** and **standard deviation** across the folds were calculated as in @tbl-kfold-AVG:
+The *mean \(R^2\)* and *standard deviation* across the folds were calculated as in @tbl-kfold-AVG:
 #figure(
   caption: [Mean and Std. of 4-fold Cross Validation],
   placement: none,
@@ -330,7 +332,7 @@ The **mean \(R^2\)** and **standard deviation** across the folds were calculated
 
 
 
-These results indicate that the model exhibits **moderate predictive capability** on unseen data, with relatively low variability between folds. The k-fold cross-validation provides a robust estimate of model performance, reducing the risk of overfitting to any single subset of the data.
+These results indicate that the model exhibits *moderate predictive capability* on unseen data, with relatively low variability between folds. The k-fold cross-validation provides a robust estimate of model performance, reducing the risk of overfitting to any single subset of the data.
 === Regularized Model (L1 - LASSO)
 To handle potential overfitting and feature sparsity, an L1 regularization term was added 
 to the cost function:
@@ -413,7 +415,42 @@ domain-informed features significantly improved generalization.
 
 == Model 3 - Random Forest
 
-== Model 4 - Neural Network
+== Model 4 – Neural Network
+
+To capture the non-linear relationships present in the concrete mixture data, we
+developed a feed-forward neural network trained using a custom gradient descent
+optimizer. The model uses eight standardized input features and produces a single
+continuous prediction of compressive strength.
+
+The architecture consists of an input layer with eight features, followed by one
+hidden layer with ten neurons using the ReLU activation function, and finally an
+output neuron representing the predicted compressive strength. The forward
+propagation can be described as follows. First, the model computes the linear
+transformation z1 = W1 · x + b1, where W1 and b1 denote the weights and biases of
+the hidden layer. The activation of this hidden layer is then obtained through a
+ReLU operation, expressed as a1 = max(0, z1). The output prediction is calculated
+through a second linear transformation, y_pred = W2 · a1 + b2.
+
+Training was performed using full-batch gradient descent. We optimized the
+parameters with a learning rate of η = 0.001 over a total of 5000 training steps.
+The loss function used during training was the Mean Squared Error (MSE).
+Because gradient-based optimization is sensitive to input scaling, all features
+were standardized prior to training.
+
+After optimization, the neural network achieved strong predictive performance on
+the held-out test set. The final metrics were: MSE = 43.64, RMSE = 6.61, and MAE = 5.07. The coefficient of determination reached R² = 0.837, indicating that the
+model explains approximately 84% of the variance in compressive strength. This
+performance surpasses the linear model and confirms that non-linear approaches
+such as neural networks are capable of capturing complex interactions between
+concrete components that linear regression cannot represent.
+
+To visually assess the predictive quality of the neural network, the true compressive strengths from the test set were plotted against the model’s predicted values.
+
+#figure(
+  image("figures-NeuralNetwork-Georg/01_PredictionAccuracy.png", width: 80%),
+  caption: [Model accuracy plot comparing predicted vs. true concrete strengths. Points close to the diagonal indicate high predictive performance.]
+) <fig-nn>
+
 
 == Summarized Results
 
@@ -427,8 +464,8 @@ domain-informed features significantly improved generalization.
 "Decision Tree","Test","0.687","9.78","6.75",
 "Random Forest","Train","0.995","1.18","0.06",
 "Random Forest","Test","0.657","10.24","7.39",
-"Neural Network","Train","0.988","1.8","1.07",
-"Neural Network","Test","0.921","4.9","3.1"
+"Neural Network","Train","0.854","6.21","4.78",
+"Neural Network","Test","0.837","6.61","5.07"
 )
 
 === Cross-Validation Results (Random Forest)
@@ -437,9 +474,9 @@ domain-informed features significantly improved generalization.
 - Fold Scores: 0.515, 0.4, 0.158, 0.38, -0.293
 
 === Key Findings
-1. **Best Performing Model**: Neural Network achieved R² = 0.921 on test data
-2. **Feature Importance**: Age (day), AggBinderRatio, TotalBinder are the most influential features
-3. **Engineered Features**: Water-cement ratio ranked 5 in importance
+1. *Best Performing Model*: Neural Network achieved R² = 0.837 on test data
+2. *Feature Importance*: Age (day), AggBinderRatio, TotalBinder are the most influential features
+3. *Engineered Features*: Water-cement ratio ranked 5 in importance
 
 == Visualizations
 
@@ -453,8 +490,8 @@ domain-informed features significantly improved generalization.
 The Neural Network model demonstrates excellent predictive capability (R² = 0.921). This level of accuracy is sufficient for practical engineering applications.
 
 === Engineering Implications
-1. The importance of **Age (day)** aligns with concrete technology principles
-2. **Water-cement ratio** emerges as a critical engineered feature, validating fundamental concrete science
+1. The importance of *Age (day)* aligns with concrete technology principles
+2. *Water-cement ratio* emerges as a critical engineered feature, validating fundamental concrete science
 3. Model can assist in mix design optimization and strength prediction without extensive laboratory testing
 
 === Limitations and Future Work
@@ -464,4 +501,4 @@ The Neural Network model demonstrates excellent predictive capability (R² = 0.9
 
 == Conclusion
 
-Machine learning models, particularly Neural Network, successfully predict concrete compressive strength with 92.1% of variance explained. The models capture known concrete technology relationships while providing quantitative feature importance rankings that align with engineering intuition.
+Machine learning models, particularly Neural Network, successfully predict concrete compressive strength with 83.7% of variance explained. The models capture known concrete technology relationships while providing quantitative feature importance rankings that align with engineering intuition.
