@@ -575,7 +575,7 @@ To visually assess the predictive quality of the neural network, the true compre
 "Linear Regression","Train","0.606","10.33","8.25",
 "Linear Regression","Test","0.638","10.52","8.09",
 "Decision Tree","Train","0.995","1.18","0.06",
-"Decision Tree","Test","0.687","9.78","6.75",
+"Decision Tree","Test","0.628","9.71","7.17",
 "Random Forest","Train","0.995","1.18","0.06",
 "Random Forest","Test","0.657","10.24","7.39",
 "Neural Network","Train","0.854","6.21","4.78",
