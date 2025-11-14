@@ -417,62 +417,33 @@ domain-informed features significantly improved generalization.
 
 == Model 4 – Neural Network
 
-To evaluate non-linear relationships between mix components and compressive strength, 
-we implemented a feed-forward neural network trained using our own gradient descent 
-routine. The model uses eight standardized input features and predicts concrete 
-compressive strength as a continuous output.
+To capture the non-linear relationships present in the concrete mixture data, we
+developed a feed-forward neural network trained using a custom gradient descent
+optimizer. The model uses eight standardized input features and produces a single
+continuous prediction of compressive strength.
 
-=== Architecture
+The architecture consists of an input layer with eight features, followed by one
+hidden layer with ten neurons using the ReLU activation function, and finally an
+output neuron representing the predicted compressive strength. The forward
+propagation can be described as follows. First, the model computes the linear
+transformation z1 = W1 · x + b1, where W1 and b1 denote the weights and biases of
+the hidden layer. The activation of this hidden layer is then obtained through a
+ReLU operation, expressed as a1 = max(0, z1). The output prediction is calculated
+through a second linear transformation, y_pred = W2 · a1 + b2.
 
-The neural network consists of:
+Training was performed using full-batch gradient descent. We optimized the
+parameters with a learning rate of η = 0.001 over a total of 5000 training steps.
+The loss function used during training was the Mean Squared Error (MSE).
+Because gradient-based optimization is sensitive to input scaling, all features
+were standardized prior to training.
 
-- Input layer: 8 features
-- Hidden layer: 10 neurons, ReLU activation
-- Output layer: 1 neuron for predicting compressive strength
-
-The forward pass for a single sample can be written as:
-
-- First linear transformation:  
-  z1 = W1 · x + b1  
-- Hidden activation using the ReLU function:  
-  a1 = max(0, z1)  
-- Output layer:  
-  y_pred = W2 · a1 + b2
-
-Here, W1 and W2 are the weight matrices, and b1 and b2 are the bias vectors.
-
-=== Training Procedure
-
-The model was optimized with full-batch gradient descent using:
-
-- Learning rate: η = 0.001  
-- Number of training steps: 5000  
-- Loss function: Mean Squared Error (MSE)
-
-The MSE loss used during training is defined as:
-
-MSE = (1/n) · Σ (y_true(i) - y_pred(i))²
-
-where n is the number of samples in the training set.
-
-All input features were standardized before training to ensure stable gradient-based 
-optimization.
-
-=== Performance on Test Data
-
-After training, the neural network achieved the following performance on the held-out 
-test set:
-
-- Test MSE: 43.64  
-- Test RMSE: 6.61  
-- Test MAE: 5.07  
-- R²: 0.837  
-
-These results indicate that the neural network is capable of modeling the non-linear 
-relationships between concrete mix components and compressive strength. The R² value 
-of approximately 0.84 reflects strong predictive accuracy, outperforming purely linear 
-models and validating the hypothesis that non-linear methods can capture interactions 
-not accessible to linear regression.
+After optimization, the neural network achieved strong predictive performance on
+the held-out test set. The final metrics were: MSE = 43.64, RMSE = 6.61, and MAE
+= 5.07. The coefficient of determination reached R² = 0.837, indicating that the
+model explains approximately 84% of the variance in compressive strength. This
+performance surpasses the linear model and confirms that non-linear approaches
+such as neural networks are capable of capturing complex interactions between
+concrete components that linear regression cannot represent.
 
 == Summarized Results
 
