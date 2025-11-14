@@ -680,49 +680,86 @@ To visually assess the predictive quality of the neural network, the true compre
 
 === Model Performance Comparison
 #table(
-	columns: (auto, auto, auto, auto, auto),
-	table.header([*Model*], [*Dataset*], [*R²*], [*RMSE*], [*MAE*]),
-"Linear Regression","Train","0.606","10.33","8.25",
-"Linear Regression","Test","0.638","10.52","8.09",
-"Decision Tree","Train","0.995","1.18","0.06",
-"Decision Tree","Test","0.628","9.71","7.17",
-"Random Forest","Train","0.995","1.18","0.06",
-"Random Forest","Test","0.657","10.24","7.39",
-"Neural Network","Train","0.854","6.21","4.78",
-"Neural Network","Test","0.837","6.61","5.07"
+  columns: (auto, auto, auto, auto, auto),
+  table.header([*Model*], [*Dataset*], [*R²*], [*RMSE*], [*MAE*]),
+
+  // Linear Regression (Standardized)
+  "Linear Regression","Train","0.614","—","—",
+  "Linear Regression","Test","0.614","—","—",
+
+  // Decision Tree
+  "Decision Tree","Train","0.995","1.185","0.060",
+  "Decision Tree","Test","0.628","9.711","7.175",
+
+  // Random Forest
+  "Random Forest","Train","0.995","1.153","0.045",
+  "Random Forest","Test","0.652","10.056","7.194",
+
+  // Neural Network
+  "Neural Network","Train","0.854","6.210","4.780",
+  "Neural Network","Test","0.837","6.610","5.070",
 )
 
-=== Cross-Validation Results (Random Forest)
-- Mean R²: 0.232
-- Standard Deviation: 0.321
-- Fold Scores: 0.515, 0.4, 0.158, 0.38, -0.293
+=== Cross-Validation Results
+
+==== Linear Regression (4-Fold Blocked)
+- Fold Scores (R²): 0.4587, 0.4432, 0.4791, 0.4085  
+- Mean R²: 0.447  
+- Standard Deviation: 0.030  
+
+==== Decision Tree – Tuned (5-Fold)
+- Fold Scores (R²): 0.6311, 0.5985, 0.6718, 0.3908, 0.5819  
+- Mean R²: 0.575  
+- Standard Deviation: 0.101  
+
+==== Decision Tree – Untuned (5-Fold)
+- Fold Scores (R²): 0.6604, 0.5548, 0.3379, 0.6116, 0.5448  
+- Mean R²: 0.542  
+- Standard Deviation: 0.109  
+
+==== Random Forest – Tuned (5-Fold)
+- Fold Scores (R²): 0.5148, 0.5054, 0.6139, 0.6615, 0.4348  
+- Mean R²: 0.546  
+- Standard Deviation: 0.085  
+
+==== Random Forest – Untuned (5-Fold)
+- Fold Scores (R²): 0.5388, 0.5357, 0.5646, 0.6020, 0.4307  
+- Mean R²: 0.534  
+- Standard Deviation: 0.067  
 
 === Key Findings
-1. *Best Performing Model*: Neural Network achieved R² = 0.837 on test data
-2. *Feature Importance*: Age (day), AggBinderRatio, TotalBinder are the most influential features
-3. *Engineered Features*: Water-cement ratio ranked 5 in importance
+1. *Best Performing Model*: Neural Network achieved the highest test accuracy with R² = 0.837  
+2. *Most Influential Features*:  
+   - Age (days)  
+   - Aggregate/Binder Ratio  
+   - Total Binder Content  
+3. *Engineered Features*: Water-Cement Ratio ranked 5th in importance based on Random Forest feature ranking
 
 == Visualizations
 
-#figure(image("model_comparison.png"), caption: [Model performance comparison and diagnostic plots])
+#figure(
+  image("model_comparison.png"),
+  caption: [Model performance comparison and diagnostic plots]
+)
 
-#figure(image("feature_importance.png"), caption: [Feature importance analysis from tree-based models])
+#figure(
+  image("feature_importance.png"),
+  caption: [Feature importance analysis from tree-based models]
+)
 
 == Discussion
 
 === Model Performance Interpretation
-The Neural Network model demonstrates excellent predictive capability (R² = 0.921). This level of accuracy is sufficient for practical engineering applications.
+The Neural Network model demonstrates strong predictive capability with a test R² of 0.837.  
+This level of predictive accuracy is sufficient for practical engineering applications in early-stage concrete mix design and scenario evaluation.
 
 === Engineering Implications
-1. The importance of *Age (day)* aligns with concrete technology principles
-2. *Water-cement ratio* emerges as a critical engineered feature, validating fundamental concrete science
-3. Model can assist in mix design optimization and strength prediction without extensive laboratory testing
+1. The results highlight that certain input variables, such as Age (day) and engineered ratios, carry strong predictive power, demonstrating how domain-informed feature engineering can significantly improve model performance in data-driven tasks.
+2. The experiments show that simple linear models capture only part of the underlying relationships in the dataset, while more flexible models (Decision Trees, Random Forests, Neural Networks) better learn nonlinear patterns. This reinforces an important data-science principle: model choice must reflect the complexity of the data.
+3. The project demonstrates how preprocessing decisions, such as standardization, removing collinearity, and dimensionality reduction , directly affect model stability and generalization, emphasizing the importance of careful pipeline design in machine learning workflows.
 
-=== Limitations and Future Work
-1. Dataset limited to laboratory conditions - field validation needed
-2. Potential for incorporating additional features (curing temperature, humidity)
-3. Ensemble methods could further improve performance
 
 == Conclusion
 
-Machine learning models, particularly Neural Network, successfully predict concrete compressive strength with 83.7% of variance explained. The models capture known concrete technology relationships while providing quantitative feature importance rankings that align with engineering intuition.
+Machine learning models, especially the Neural Network, successfully predict concrete compressive strength, explaining 83.7% of the variance in unseen test data.  
+The models capture known engineering relationships and quantitatively rank feature importance in ways that align with practical concrete materials science.
