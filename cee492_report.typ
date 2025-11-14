@@ -413,7 +413,84 @@ domain-informed features significantly improved generalization.
 
 == Model 3 - Random Forest
 
-== Model 4 - Neural Network
+== Model 4 – Neural Network
+
+This model employs a feed-forward artificial neural network (ANN) to predict concrete compressive strength from the eight normalized input features. Neural networks are capable of learning non-linear relationships in data and therefore provide a flexible extension to linear regression and tree-based models.
+
+=== Model Architecture
+
+The implemented architecture is a fully connected two-layer network consisting of:
+
+- *Input layer:* 8 standardized features  
+- *Hidden layer:* 10 neurons  
+- *Activation function:* Element-wise ReLU activation  
+- *Output layer:* 1 continuous prediction (strength in MPa)
+
+The forward propagation is defined as:
+
+$$
+z_1 = W_1 x + b_1
+$$
+
+$$
+a_1 = \text("ReLU")(z_1)
+$$
+
+$$
+\hat{y} = W_2 a_1 + b_2
+$$
+
+The ReLU activation, defined as
+
+$$
+\text("ReLU")(t) = \max(0, t),
+$$
+
+introduces non-linearity and helps the network approximate more complex functional mappings than a linear model.
+
+=== Training Procedure
+
+Model training was carried out in Julia using gradient-based optimization via automatic differentiation (`ForwardDiff.jl`). The parameters  
+\(
+p = \{ W_1, b_1, W_2, b_2 \}
+\)  
+were optimized using full-batch gradient descent:
+
+$$
+p \leftarrow p - \eta \, \nabla_p \, \text("MSE")(\hat{y}, y)
+$$
+
+The following hyperparameters were used:
+
+- Learning rate: \( \eta = 0.001 \)  
+- Epochs: 5000 iterations  
+- Loss function: Mean Squared Error (MSE)  
+
+No regularization, early stopping, or dropout was applied.
+
+=== Performance on Test Data
+
+After training, the model was evaluated on the 20% test split.  
+The resulting performance metrics are summarized in @tbl-nn-performance.
+
+#table(
+  columns: 2,
+  align: left,
+)[
+  <tbl-nn-performance>
+  = Neural Network Test Performance
+
+  *Metric*                | *Value*  
+  ----------------------- | ---------------------------
+  Test MSE                | 43.64  
+  Test RMSE               | 6.61  
+  Test MAE                | 5.07  
+  Coefficient of Determination \(R^2\) | 0.837  
+]
+
+The scatter plot of predicted versus true strength values is shown in @fig-nn-scatter.
+
+
 
 This section presents the development and evaluation of a feed-forward neural network for predicting the compressive strength of concrete using the dataset *Concrete_Data.xlsx*.  
 The objective of this model is to capture nonlinear interactions between material components that cannot be adequately represented by linear or tree-based models.
