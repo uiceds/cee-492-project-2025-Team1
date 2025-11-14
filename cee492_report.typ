@@ -215,18 +215,20 @@ Based on our exploratory data analysis from Deliverable 2, we hypothesize that:
 - Train-Test Split: 824 training, 206 testing (80-20 split)
 - Feature Engineering: Water-cement ratio, total binder content, aggregate-binder ratio
 - Standardization: Applied for regularized models and neural networks
+- Duplicate removal: All repeated rows were removed before modeling
 
 === Model Specifications
 1. *Linear Regression*: Baseline model with all features
 2. *Decision Tree*: Pruned with max depth control
 3. *Random Forest*: 100 trees, 70% feature sampling
-4. *Neural Network*: 3-layer architecture (11-16-8-1) with ReLU activation
+4. *Neural Network*: Two-layer feed-forward architecture (8–10–1) using ReLU activation
 
 === Evaluation Metrics
 - R² (Coefficient of Determination)
 - RMSE (Root Mean Square Error)
 - MAE (Mean Absolute Error)
-- 5-fold Cross-Validation
+- 5-fold Cross-Validation (used for LR, DT, RF; not applied to the Neural Network)
+
 == Model 1 - Linear Regression Model
 This section presents the development and evaluation of multiple linear regression models 
 for predicting the compressive strength of concrete using the dataset provided in 
@@ -415,6 +417,62 @@ domain-informed features significantly improved generalization.
 
 == Model 4 – Neural Network
 
+To evaluate non-linear relationships between mix components and compressive strength, 
+we implemented a feed-forward neural network trained using our own gradient descent 
+routine. The model uses eight standardized input features and predicts concrete 
+compressive strength as a continuous output.
+
+=== Architecture
+
+The neural network consists of:
+
+- Input layer: 8 features
+- Hidden layer: 10 neurons, ReLU activation
+- Output layer: 1 neuron for predicting compressive strength
+
+The forward pass for a single sample can be written as:
+
+- First linear transformation:  
+  z1 = W1 · x + b1  
+- Hidden activation using the ReLU function:  
+  a1 = max(0, z1)  
+- Output layer:  
+  y_pred = W2 · a1 + b2
+
+Here, W1 and W2 are the weight matrices, and b1 and b2 are the bias vectors.
+
+=== Training Procedure
+
+The model was optimized with full-batch gradient descent using:
+
+- Learning rate: η = 0.001  
+- Number of training steps: 5000  
+- Loss function: Mean Squared Error (MSE)
+
+The MSE loss used during training is defined as:
+
+MSE = (1/n) · Σ (y_true(i) - y_pred(i))²
+
+where n is the number of samples in the training set.
+
+All input features were standardized before training to ensure stable gradient-based 
+optimization.
+
+=== Performance on Test Data
+
+After training, the neural network achieved the following performance on the held-out 
+test set:
+
+- Test MSE: 43.64  
+- Test RMSE: 6.61  
+- Test MAE: 5.07  
+- R²: 0.837  
+
+These results indicate that the neural network is capable of modeling the non-linear 
+relationships between concrete mix components and compressive strength. The R² value 
+of approximately 0.84 reflects strong predictive accuracy, outperforming purely linear 
+models and validating the hypothesis that non-linear methods can capture interactions 
+not accessible to linear regression.
 
 == Summarized Results
 
