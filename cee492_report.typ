@@ -444,6 +444,14 @@ performance surpasses the linear model and confirms that non-linear approaches
 such as neural networks are capable of capturing complex interactions between
 concrete components that linear regression cannot represent.
 
+To visually assess the predictive quality of the neural network, the true compressive strengths from the test set were plotted against the model’s predicted values.
+
+#figure(
+  image("figures-NeuralNetwork-Georg/01_PrecisionAccuracy.png", width: 80%),
+  caption: [Model accuracy plot comparing predicted vs. true concrete strengths. Points close to the diagonal indicate high predictive performance.]
+) <fig-nn>
+
+
 == Summarized Results
 
 === Model Performance Comparison
@@ -456,7 +464,7 @@ concrete components that linear regression cannot represent.
 "Decision Tree","Test","0.687","9.78","6.75",
 "Random Forest","Train","0.995","1.18","0.06",
 "Random Forest","Test","0.657","10.24","7.39",
-"Neural Network","Train","0.988","1.8","1.07",
+"Neural Network","Train","0.854","6.21","4.78",
 "Neural Network","Test","0.837","6.61","5.07"
 )
 
