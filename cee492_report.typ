@@ -456,7 +456,7 @@ The model achieved the following predictive accuracy on the test set:
 
 #table(
   caption: [Performance metrics of the neural network model],
-  label: tbl:nn-performance,
+  <tbl:nn-performance>
   columns: 2,
   align: left,
   [*Metric*], [*Value*],
