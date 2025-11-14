@@ -423,72 +423,59 @@ The implemented architecture is a fully connected two-layer network consisting o
 
 - *Input layer:* 8 standardized features  
 - *Hidden layer:* 10 neurons  
-- *Activation function:* Element-wise ReLU activation  
+- *Activation function:* ReLU  
 - *Output layer:* 1 continuous prediction (strength in MPa)
 
 The forward propagation is defined as:
 
-$$
-z_1 = W_1 x + b_1
-$$
+$ z_1 = W_1 x + b_1 $
 
-$$
-a_1 = \text("ReLU")(z_1)
-$$
+$ a_1 = text("ReLU")(z_1) $
 
-$$
-\hat{y} = W_2 a_1 + b_2
-$$
+$ \hat{y} = W_2 a_1 + b_2 $
 
-The ReLU activation, defined as
+The ReLU activation is defined as:
 
-$$
-\text("ReLU")(t) = \max(0, t),
-$$
+$ text("ReLU")(t) = max(0, t) $
 
-introduces non-linearity and helps the network approximate more complex functional mappings than a linear model.
+which introduces non-linearity and allows the network to capture complex feature interactions.
 
 === Training Procedure
 
-Model training was carried out in Julia using gradient-based optimization via automatic differentiation (`ForwardDiff.jl`). The parameters  
-\(
-p = \{ W_1, b_1, W_2, b_2 \}
-\)  
-were optimized using full-batch gradient descent:
+Training was implemented in Julia using automatic differentiation (`ForwardDiff.jl`).  
+The model parameters  
 
-$$
-p \leftarrow p - \eta \, \nabla_p \, \text("MSE")(\hat{y}, y)
-$$
+$ p = { W_1, b_1, W_2, b_2 } $
 
-The following hyperparameters were used:
+were optimized using gradient descent:
 
-- Learning rate: \( \eta = 0.001 \)  
-- Epochs: 5000 iterations  
-- Loss function: Mean Squared Error (MSE)  
+$ p <- p - \eta \, \nabla_p \, text("MSE")(\hat{y}, y) $
 
-No regularization, early stopping, or dropout was applied.
+Training hyperparameters:
+
+- Learning rate: $ \eta = 0.001 $
+- Iterations: 5000 steps  
+- Loss function: Mean Squared Error (MSE)
+- Optimizer: Full-batch gradient descent
 
 === Performance on Test Data
 
-After training, the model was evaluated on the 20% test split.  
-The resulting performance metrics are summarized in @tbl-nn-performance.
+The trained model was evaluated on a 20% held-out test set.  
+Results are summarized in Table @tbl-nn-performance.
 
 #table(
   columns: 2,
   align: left,
 )[
-  <tbl-nn-performance>
-  = Neural Network Test Performance
+  *Metric* | *Value*
+  ------------------- | -------------
+  Test MSE            | 43.64
+  Test RMSE           | 6.61
+  Test MAE            | 5.07
+  R²                  | 0.837
+] <tbl-nn-performance>
 
-  *Metric*                | *Value*  
-  ----------------------- | ---------------------------
-  Test MSE                | 43.64  
-  Test RMSE               | 6.61  
-  Test MAE                | 5.07  
-  Coefficient of Determination \(R^2\) | 0.837  
-]
-
-The scatter plot of predicted versus true strength values is shown in @fig-nn-scatter.
+A comparison of predicted vs. true strengths is presented in Figure @fig-nn-scatter.
 
 
 
