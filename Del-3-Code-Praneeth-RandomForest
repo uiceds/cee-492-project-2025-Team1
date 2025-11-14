@@ -106,7 +106,6 @@ function calculate_metrics(y_true, y_pred)
 # ╔═╡ c1850965-d5af-444b-8349-c23aacf6e49f
 begin
 	# Build random forest
-	# Parameters: y, X, n_subfeatures, n_trees, partial_sampling
 	forest_model = DecisionTree.build_forest(y_train, X_train_std, 3, 100, 0.7)
 	
 	# Make predictions
@@ -136,7 +135,6 @@ begin
 	)
 	sort!(forest_importance_df, :Importance, rev=true)
 	
-	# Add to results
 	forest_results = DataFrame(
 		Model = ["Random Forest", "Random Forest"],
 		Dataset = ["Train", "Test"],
@@ -155,6 +153,243 @@ begin
 	end
 	
 	forest_results
+end
+
+
+# ╔═╡ b9269e19-ab29-41d1-a0ad-409bcd33c4a7
+begin
+    println("\n Random Forest Tree Structure (Tree 1)")
+    print_tree(forest_model.trees[1], 5)
+end
+
+
+# ╔═╡ ff1e2945-dfc6-4542-8920-3a4b7ad21dee
+begin
+    # Convert to Float64
+    y_train_f = Float64.(y_train)
+    y_test_f  = Float64.(y_test)
+    yp_train_f = Float64.(y_pred_forest_train)
+    yp_test_f  = Float64.(y_pred_forest_test)
+
+    # Train R²
+    ss_res_train = sum((y_train_f .- yp_train_f).^2)
+    ss_tot_train = sum((y_train_f .- mean(y_train_f)).^2)
+    r2_train = 1 - ss_res_train / ss_tot_train
+
+    # Test R²
+    ss_res_test = sum((y_test_f .- yp_test_f).^2)
+    ss_tot_test = sum((y_test_f .- mean(y_test_f)).^2)
+    r2_test = 1 - ss_res_test / ss_tot_test
+
+    # Perfect fit line range
+    min_val = min(minimum(vcat(y_train_f, y_test_f)), minimum(vcat(yp_train_f, yp_test_f)))
+    max_val = max(maximum(vcat(y_train_f, y_test_f)), maximum(vcat(yp_train_f, yp_test_f)))
+    perfect_x = [min_val, max_val]
+    perfect_y = [min_val, max_val]
+
+    # Train scatter
+    p = scatter(
+        y_train_f, yp_train_f,
+        xlabel = "Actual Strength (MPa)",
+        ylabel = "Predicted Strength (MPa)",
+        title = "Random Forest (Train R² = $(round(r2_train, digits=3)), Test R² = $(round(r2_test, digits=3)))",
+        markersize = 6,
+        alpha = 0.7,
+        color = :blue,
+        label = "Train Data",
+    )
+
+    # Test scatter
+    scatter!(
+        y_test_f, yp_test_f,
+        markersize = 6,
+        alpha = 0.7,
+        color = :orange,
+        label = "Test Data",
+    )
+
+    # Perfect fit line
+    plot!(
+        perfect_x,
+        perfect_y,
+        color = :red,
+        lw = 2,
+        label = "Perfect Fit",
+    )
+
+    p
+end
+
+
+# ╔═╡ 0ada4f2a-fce1-4955-81d4-76ff3a936717
+begin
+    println("hyperparameter tuning for Random Forest...")
+
+    best_r2 = -Inf
+    best_forest_model = nothing
+    best_forest_params = ()
+
+   
+    n_subfeatures_values = [3, 5, 8]
+    n_trees_values = [50, 100, 200]
+    sampling_values = [0.6, 0.7, 0.8]
+
+    for n_subfeatures in n_subfeatures_values
+        for n_trees in n_trees_values
+            for sampling in sampling_values
+                forest_candidate = DecisionTree.build_forest(
+                    y_train,
+                    X_train_std,
+                    n_subfeatures,
+                    n_trees,
+                    sampling,
+                )
+
+                y_pred_candidate = DecisionTree.apply_forest(forest_candidate, X_test_std)
+                metrics = calculate_metrics(y_test, y_pred_candidate)
+                r2_candidate = metrics.r2
+
+                if r2_candidate > best_r2
+                    best_r2 = r2_candidate
+                    best_forest_model = forest_candidate
+                    best_forest_params = (n_subfeatures, n_trees, sampling)
+                end
+            end
+        end
+    end
+
+    println("\n Best Tuned Random Forest Model")
+    println("  n_subfeatures   = $(best_forest_params[1])")
+    println("  n_trees         = $(best_forest_params[2])")
+    println("  sampling_ratio  = $(best_forest_params[3])")
+    println("  Best Test R²    = $(round(best_r2, digits=4))")
+
+    best_forest_model
+end
+
+
+# ╔═╡ 5f654256-5cf3-4361-944e-251dcc6d532c
+begin
+    # Untuned Random Forest
+    y_pred_untuned = DecisionTree.apply_forest(forest_model, X_test_std)
+    untuned_metrics = calculate_metrics(y_test, y_pred_untuned)
+
+    # Tuned Random Forest
+    y_pred_tuned = DecisionTree.apply_forest(best_forest_model, X_test_std)
+    tuned_metrics = calculate_metrics(y_test, y_pred_tuned)
+
+    # Comparison
+    comparison_df = DataFrame(
+        R2 = [untuned_metrics.r2, tuned_metrics.r2],
+        RMSE = [untuned_metrics.rmse, tuned_metrics.rmse],
+        MAE = [untuned_metrics.mae, tuned_metrics.mae]
+    )
+
+    comparison_df
+end
+
+
+# ╔═╡ 54209167-25f3-4515-8e0a-e9769d1a0021
+begin
+    # Plot for tuned Random Forest
+    y_pred_tuned_rf = DecisionTree.apply_forest(best_forest_model, X_test_std)
+    r2_tuned_rf = calculate_metrics(y_test, y_pred_tuned_rf).r2
+
+    actual_vals = y_test
+    predicted_vals = y_pred_tuned_rf
+
+    line_min = min(minimum(actual_vals), minimum(predicted_vals))
+    line_max = max(maximum(actual_vals), maximum(predicted_vals))
+
+    scatter(
+        actual_vals,
+        predicted_vals,
+        xlabel = "Actual Strength (MPa)",
+        ylabel = "Predicted Strength (MPa)",
+        title = "Tuned Random Forest (R² = $(round(r2_tuned_rf, digits=3)))",
+        legend = false,
+        markersize = 6,
+        markercolor = :blue,
+        size = (900, 600),
+    )
+
+    plot!([line_min, line_max], [line_min, line_max], color = :red, linewidth = 2)
+end
+
+
+# ╔═╡ 3c9b3fe1-719a-4fdd-add2-7b858a61c4c8
+begin
+    println("5-Fold Cross Validation: Tuned vs Untuned Random Forest")
+
+    tuned_n_subfeatures = best_forest_params[1]
+    tuned_n_trees       = best_forest_params[2]
+    tuned_sampling      = best_forest_params[3]
+
+    function cv_forest_model(X, y; n_subfeatures, n_trees, sampling, k=5)
+        n = size(X, 1)
+        idx = shuffle(1:n)
+        fold_size = div(n, k)
+        r2_scores = Float64[]
+
+        for fold in 1:k
+            test_idx = idx[((fold-1)*fold_size+1):min(fold*fold_size, n)]
+            train_idx = setdiff(idx, test_idx)
+
+            X_train_cv = X[train_idx, :]
+            y_train_cv = y[train_idx]
+            X_test_cv  = X[test_idx, :]
+            y_test_cv  = y[test_idx]
+
+            forest_cv = DecisionTree.build_forest(
+                y_train_cv,
+                X_train_cv,
+                n_subfeatures,
+                n_trees,
+                sampling,
+            )
+
+            y_pred_cv = DecisionTree.apply_forest(forest_cv, X_test_cv)
+            r2_fold = calculate_metrics(y_test_cv, y_pred_cv).r2
+
+            push!(r2_scores, r2_fold)
+        end
+
+        return mean(r2_scores), r2_scores
+    end
+
+    # Tuned RF CV
+    tuned_mean, tuned_folds = cv_forest_model(
+        X_train_std,
+        y_train;
+        n_subfeatures = tuned_n_subfeatures,
+        n_trees = tuned_n_trees,
+        sampling = tuned_sampling,
+        k = 5,
+    )
+
+    # Untuned RF CV (baseline: 3 subfeatures, 100 trees, 0.7 sampling as in your original RF cell)
+    untuned_mean, untuned_folds = cv_forest_model(
+        X_train_std,
+        y_train;
+        n_subfeatures = 3,
+        n_trees = 100,
+        sampling = 0.7,
+        k = 5,
+    )
+
+    println("Tuned Random Forest 5-Fold R²: ", tuned_folds)
+    println("Tuned Mean R²: ", round(tuned_mean, digits=4), "\n")
+
+    println("Untuned Random Forest 5-Fold R²: ", untuned_folds)
+    println("Untuned Mean R²: ", round(untuned_mean, digits=4), "\n")
+
+    cv_rf_comparison = DataFrame(
+        Model = ["Untuned Random Forest", "Tuned Random Forest"],
+        Mean_R2 = [untuned_mean, tuned_mean],
+    )
+
+    println("\n Cross-Validation Comparison Table")
+    cv_rf_comparison
 end
 
 
@@ -2459,5 +2694,11 @@ version = "1.9.2+0"
 # ╠═b991e753-101c-417c-ae78-4be04816ea27
 # ╠═f5945b5d-7a88-439b-9231-3104970ccb89
 # ╠═c1850965-d5af-444b-8349-c23aacf6e49f
+# ╠═b9269e19-ab29-41d1-a0ad-409bcd33c4a7
+# ╠═ff1e2945-dfc6-4542-8920-3a4b7ad21dee
+# ╠═0ada4f2a-fce1-4955-81d4-76ff3a936717
+# ╠═5f654256-5cf3-4361-944e-251dcc6d532c
+# ╠═54209167-25f3-4515-8e0a-e9769d1a0021
+# ╠═3c9b3fe1-719a-4fdd-add2-7b858a61c4c8
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

@@ -527,7 +527,117 @@ Both of the tuned and untuned models were validated throught 5 fold cross valida
 
 
 
-== Model 3 - Random Forest
+== Model 3 – Random Forest
+
+In this section, we developed a random forest regression model to predict concrete compressive strength using eight mix-design variables and several engineered features. The dataset was standardized and randomly divided into an 80% training set and a 20% test set. It follows the same pathway of optimization as the decision tree model
+
+=== Untuned Model
+
+We first used an untuned random forest model as a baseline to evaluate ensemble performance. This initial model was trained using default hyperparameters without limiting tree depth or adjusting sampling parameters. The untuned model provided an R² score of 0.99 for the train set and 0.63 for the test set. Figure 14 shows the comparison of the train and test R² scores.
+
+#figure(
+  image("rf_test_train.PNG", width: 90%),
+  caption: [Comparison of R² scores for test and train model using random forest.]
+)
+
+#figure(
+  caption: [Performance metrics of the Baseline Random Forest Model.],
+  placement: none,
+
+  table(
+    columns: (3.5cm, 3.5cm),
+    align: center,
+
+    table.header(
+      [*Metric*], [*Value*]
+    ),
+
+    [Model (Train)], ["Random Forest"],
+    [R² (Train)], [0.995178],
+    [RMSE (Train)], [1.1526],
+    [MAE (Train)], [0.0449522],
+
+    [Model (Test)], ["Random Forest"],
+    [R² (Test)], [0.637315],
+    [RMSE (Test)], [10.2703],
+    [MAE (Test)], [7.25876],
+  )
+)
+
+=== Tuned Model
+
+To improve predictive accuracy, we performed hyperparameter tuning on the random forest model. The tuning process explored multiple configurations of the number of estimators, maximum tree depth, bootstrap sampling, minimum samples per leaf, and feature selection strategy. Each configuration was evaluated using its R² score to identify the most effective setup.
+
+Figure 15 illustrates the improvement in performance. After tuning, the test R² increased from 0.63 to 0.652.
+
+#figure(
+  image("rf_tuned.PNG", width: 90%),
+  caption: [R² score for the tuned model using random forest.]
+)
+
+#figure(
+  caption: [Performance comparison of the Untuned and Tuned Random Forest Models.],
+  placement: none,
+
+  table(
+    columns: (2.5cm, 2.5cm, 2.5cm, 2.5cm),
+    align: center,
+
+    table.header(
+      [*Model*], [*R²*], [*RMSE*], [*MAE*]
+    ),
+
+    ["Untuned RF"], [0.637315], [10.2703], [7.25876],
+    ["Tuned RF"],   [0.652318], [10.0557], [7.19412],
+  )
+)
+
+=== 5 Fold Cross Validation for Random Forest Models
+
+Both tuned and untuned random forest models were validated using 5-fold cross-validation to evaluate their robustness across different data splits. The R² scores for each fold are shown below.
+
+#figure(
+  caption: [Performance metrics of the Tuned Random Forest Model under 5-Fold Cross Validation.],
+  placement: none,
+
+  table(
+    columns: (3.5cm, 3.5cm),
+    align: center,
+
+    table.header(
+      [*Fold (Tuned)*], [*R² Score*]
+    ),
+
+    [1], [0.514840],
+    [2], [0.505447],
+    [3], [0.613936],
+    [4], [0.661547],
+    [5], [0.434754],
+    [*Mean*], [0.5461],
+  )
+) <tbl-kfold-tuned>
+
+#figure(
+  caption: [Performance metrics of the Untuned Random Forest Model under 5-Fold Cross Validation.],
+  placement: none,
+
+  table(
+    columns: (3.5cm, 3.5cm),
+    align: center,
+
+    table.header(
+      [*Fold (Untuned)*], [*R² Score*]
+    ),
+
+    [1], [0.538777],
+    [2], [0.535721],
+    [3], [0.564592],
+    [4], [0.602024],
+    [5], [0.430688],
+    [*Mean*], [0.5344],
+  )
+) <tbl-kfold-untuned>
+
 
 == Model 4 – Neural Network
 
