@@ -457,7 +457,7 @@ concrete components that linear regression cannot represent.
 "Random Forest","Train","0.995","1.18","0.06",
 "Random Forest","Test","0.657","10.24","7.39",
 "Neural Network","Train","0.988","1.8","1.07",
-"Neural Network","Test","0.921","4.9","3.1"
+"Neural Network","Test","0.837","6.61","5.07"
 )
 
 === Cross-Validation Results (Random Forest)
@@ -466,7 +466,7 @@ concrete components that linear regression cannot represent.
 - Fold Scores: 0.515, 0.4, 0.158, 0.38, -0.293
 
 === Key Findings
-1. *Best Performing Model*: Neural Network achieved R² = 0.921 on test data
+1. *Best Performing Model*: Neural Network achieved R² = 0.837 on test data
 2. *Feature Importance*: Age (day), AggBinderRatio, TotalBinder are the most influential features
 3. *Engineered Features*: Water-cement ratio ranked 5 in importance
 
@@ -493,4 +493,4 @@ The Neural Network model demonstrates excellent predictive capability (R² = 0.9
 
 == Conclusion
 
-Machine learning models, particularly Neural Network, successfully predict concrete compressive strength with 92.1% of variance explained. The models capture known concrete technology relationships while providing quantitative feature importance rankings that align with engineering intuition.
+Machine learning models, particularly Neural Network, successfully predict concrete compressive strength with 83.7% of variance explained. The models capture known concrete technology relationships while providing quantitative feature importance rankings that align with engineering intuition.
