@@ -413,6 +413,120 @@ domain-informed features significantly improved generalization.
 
 == Model 2 - Decision Tree
 
+In this section, we developed a decision tree regression model to predict concrete compressive strength using eight mix design varibles and several engineered features. The dataset was standardized and randomly divided into 80% training set and 20% test set.
+
+=== Untuned Model
+
+At first we used un-tuned decision tree model as a baseline model to predict the compressive strength. This model was trained pruned to prevent overfitting. The untuned model provided  R² score of 0.59 and 0.99 for train and test data respectively. Figure 14 provides a comparison of the test and train R² score.
+#figure(
+  image("decision_tree_test_train.png", width: 90%),
+  caption: [Comparison of R² scores for test and train model using decision tree.]
+)
+
+#figure(
+  caption: [Performance metrics of the Baseline Decision Tree Model.],
+  placement: none,
+
+  table(
+    columns: (3.5cm, 3.5cm),
+    align: center,
+
+    table.header(
+      [*Metric*], [*Value*]
+    ),
+
+    [Model (Train)], ["Decision Tree"],
+    [R² (Train)], [0.995071],
+    [RMSE (Train)], [1.18517],
+    [MAE (Train)], [0.0595223],
+
+    [Model (Test)], ["Decision Tree"],
+    [R² (Test)], [0.590449],
+    [RMSE (Test)], [10.194],
+    [MAE (Test)], [7.75932],
+  )
+)
+
+=== Tuned Model 
+
+To improve the model performance,we performed comprehensive hyperparameter tuning. It was performed by systematically searching across multiple configurations of maximum tree depth, minimum samples per leaf, minimum samples required for a split, impurity reduction threshold, and pruning. Then the  R² score was evaluated for the model to identify the best confituration. 
+
+Figure 15 shows the R² score for the tuned model. The R² score improved from 0.59 to 0.68 after tuning the model. 
+
+#figure(
+  image("decision_tree_tuned.png", width: 90%),
+  caption: [R² score for the tuned model using decision tree.]
+)
+
+
+#figure(
+  caption: [Performance comparison of the Untuned and Tuned Decision Tree Models.],
+  placement: none,
+
+  table(
+    columns: (2.5cm, 2.5cm, 2.5cm, 2.5cm),
+    align: center,
+
+    table.header(
+      [*Model*], [*R²*], [*RMSE*], [*MAE*]
+    ),
+
+    ["Untuned Tree"], [0.590449], [10.194], [7.75932],
+    ["Tuned Tree"],   [0.628332], [9.71112], [7.17482],
+  )
+)
+
+=== 5 Fold Cross Validation for Decision Tree Models 
+
+Both of the tuned and untuned models were validated throught 5 fold cross validation to measure its robustness across different data partitions. The performance of the both tuned and untuned model are shown in the following figure:
+
+#figure(
+  caption: [Performance metrics of the Tuned Decision Tree Model under 5-Fold Cross Validation.],
+  placement: none,
+
+  table(
+    columns: (3.5cm, 3.5cm),
+    align: center,
+
+    table.header(
+      [*Fold (Tuned)*], [*R² Score*]
+    ),
+
+    [1], [0.631071],
+    [2], [0.598450],
+    [3], [0.671774],
+    [4], [0.390783],
+    [5], [0.581910],
+    [*Mean*], [0.5748],
+  )
+) <tbl-kfold-tuned>
+
+
+#figure(
+  caption: [Performance metrics of the Untuned Decision Tree Model under 5-Fold Cross Validation.],
+  placement: none,
+
+  table(
+    columns: (3.5cm, 3.5cm),
+    align: center,
+
+    table.header(
+      [*Fold (Untuned)*], [*R² Score*]
+    ),
+
+    [1], [0.660438],
+    [2], [0.554768],
+    [3], [0.337916],
+    [4], [0.611585],
+    [5], [0.544826],
+    [*Mean*], [0.5419],
+  )
+) <tbl-kfold-untuned>
+
+
+
+
+
 == Model 3 - Random Forest
 
 == Model 4 – Neural Network
