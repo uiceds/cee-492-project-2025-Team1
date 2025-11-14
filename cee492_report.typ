@@ -447,7 +447,7 @@ concrete components that linear regression cannot represent.
 To visually assess the predictive quality of the neural network, the true compressive strengths from the test set were plotted against the model’s predicted values.
 
 #figure(
-  image("figures-NeuralNetwork-Georg/01_PrecisionAccuracy.png", width: 80%),
+  image("figures-NeuralNetwork-Georg/01_PredictionAccuracy.png", width: 80%),
   caption: [Model accuracy plot comparing predicted vs. true concrete strengths. Points close to the diagonal indicate high predictive performance.]
 ) <fig-nn>
 
