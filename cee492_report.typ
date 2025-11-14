@@ -217,10 +217,10 @@ Based on our exploratory data analysis from Deliverable 2, we hypothesize that:
 - Standardization: Applied for regularized models and neural networks
 
 === Model Specifications
-1. **Linear Regression**: Baseline model with all features
-2. **Decision Tree**: Pruned with max depth control
-3. **Random Forest**: 100 trees, 70% feature sampling
-4. **Neural Network**: 3-layer architecture (11-16-8-1) with ReLU activation
+1. *Linear Regression*: Baseline model with all features
+2. *Decision Tree*: Pruned with max depth control
+3. *Random Forest*: 100 trees, 70% feature sampling
+4. *Neural Network*: 3-layer architecture (11-16-8-1) with ReLU activation
 
 === Evaluation Metrics
 - R² (Coefficient of Determination)
@@ -292,7 +292,7 @@ This improved the model’s convergence rate and numerical stability.
 ) <tbl-stand-results>
 
 === K-folds Cross Validation
-To evaluate the generalization performance of our linear regression model, we performed **4-fold blocked cross-validation**. In this method, the dataset is divided into \(k=4\) mutually exclusive folds. For each iteration, one fold is held out as the test set while the model is trained on the remaining \(k-1\) folds. The process is repeated until each fold has served once as the test set, and the performance metric is averaged across all folds.
+To evaluate the generalization performance of our linear regression model, we performed *4-fold blocked cross-validation*. In this method, the dataset is divided into \(k=4\) mutually exclusive folds. For each iteration, one fold is held out as the test set while the model is trained on the remaining \(k-1\) folds. The process is repeated until each fold has served once as the test set, and the performance metric is averaged across all folds.
 
 For the standardized model, the \(R^2\) scores obtained for each fold are as shwon in @tbl-kfold:
 #figure(
@@ -313,7 +313,7 @@ For the standardized model, the \(R^2\) scores obtained for each fold are as shw
 
 
 
-The **mean \(R^2\)** and **standard deviation** across the folds were calculated as in @tbl-kfold-AVG:
+The *mean \(R^2\)* and *standard deviation* across the folds were calculated as in @tbl-kfold-AVG:
 #figure(
   caption: [Mean and Std. of 4-fold Cross Validation],
   placement: none,
@@ -330,7 +330,7 @@ The **mean \(R^2\)** and **standard deviation** across the folds were calculated
 
 
 
-These results indicate that the model exhibits **moderate predictive capability** on unseen data, with relatively low variability between folds. The k-fold cross-validation provides a robust estimate of model performance, reducing the risk of overfitting to any single subset of the data.
+These results indicate that the model exhibits *moderate predictive capability* on unseen data, with relatively low variability between folds. The k-fold cross-validation provides a robust estimate of model performance, reducing the risk of overfitting to any single subset of the data.
 === Regularized Model (L1 - LASSO)
 To handle potential overfitting and feature sparsity, an L1 regularization term was added 
 to the cost function:
@@ -430,7 +430,7 @@ The model computation is defined as:
 
 $ z_1 = W_1 x + b_1 $
 
-$ a_1 = \mathrm{ReLU}(z_1) $
+$ a_1 = text("ReLU")(z_1) $
 
 $ \hat{y} = W_2 a_1 + b_2 $
 
@@ -466,7 +466,7 @@ The model achieved the following predictive accuracy on the test set:
   [$R^2$], [0.8367],
 )
 
-The model reaches an $R^2$ value of **0.8367**, indicating that it explains approximately 84% of the variance in compressive strength.  
+The model reaches an $R^2$ value of *0.8367*, indicating that it explains approximately 84% of the variance in compressive strength.  
 This represents a substantial improvement over the linear regression models discussed earlier.
 
 == Summarized Results
@@ -491,9 +491,9 @@ This represents a substantial improvement over the linear regression models disc
 - Fold Scores: 0.515, 0.4, 0.158, 0.38, -0.293
 
 === Key Findings
-1. **Best Performing Model**: Neural Network achieved R² = 0.921 on test data
-2. **Feature Importance**: Age (day), AggBinderRatio, TotalBinder are the most influential features
-3. **Engineered Features**: Water-cement ratio ranked 5 in importance
+1. *Best Performing Model*: Neural Network achieved R² = 0.921 on test data
+2. *Feature Importance*: Age (day), AggBinderRatio, TotalBinder are the most influential features
+3. *Engineered Features*: Water-cement ratio ranked 5 in importance
 
 == Visualizations
 
@@ -507,8 +507,8 @@ This represents a substantial improvement over the linear regression models disc
 The Neural Network model demonstrates excellent predictive capability (R² = 0.921). This level of accuracy is sufficient for practical engineering applications.
 
 === Engineering Implications
-1. The importance of **Age (day)** aligns with concrete technology principles
-2. **Water-cement ratio** emerges as a critical engineered feature, validating fundamental concrete science
+1. The importance of *Age (day)* aligns with concrete technology principles
+2. *Water-cement ratio* emerges as a critical engineered feature, validating fundamental concrete science
 3. Model can assist in mix design optimization and strength prediction without extensive laboratory testing
 
 === Limitations and Future Work
