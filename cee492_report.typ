@@ -415,6 +415,60 @@ domain-informed features significantly improved generalization.
 
 == Model 4 - Neural Network
 
+This section presents the development and evaluation of a feed-forward neural network for predicting the compressive strength of concrete using the dataset *Concrete_Data.xlsx*.  
+The objective of this model is to capture nonlinear interactions between material components that cannot be adequately represented by linear or tree-based models.
+
+=== Architecture
+
+The neural network consists of two fully connected layers:
+
+- *Input layer:* 8 standardized features  
+- *Hidden layer:* 10 neurons with ReLU activation  
+- *Output layer:* 1 neuron with linear activation
+
+The model computation is defined as:
+
+$ z_1 = W_1 x + b_1 $
+
+$ a_1 = \mathrm{ReLU}(z_1) $
+
+$ \hat{y} = W_2 a_1 + b_2 $
+
+where all parameters $(W_1, b_1, W_2, b_2)$ are optimized during training.
+
+=== Training Procedure
+
+All input variables were standardized to zero mean and unit variance prior to model fitting.  
+Training was performed using full-batch gradient descent with automatic differentiation (*ForwardDiff.jl*).
+
+Training configuration:
+
+- Learning rate: $\eta = 0.001$  
+- Iterations: 5000  
+- Loss function:  
+  $ \mathrm{MSE}(y, \hat{y}) = \frac{1}{n} \sum (y_i - \hat{y}_i)^2 $
+
+An 80/20 train–test split with a fixed random seed ensured reproducibility.
+
+=== Performance Metrics
+
+The model achieved the following predictive accuracy on the test set:
+
+#table(
+  caption: [Performance metrics of the neural network model],
+  label: tbl:nn-performance,
+  columns: 2,
+  align: left,
+  [*Metric*], [*Value*],
+  [MSE], [43.639],
+  [RMSE], [6.606],
+  [MAE], [5.069],
+  [$R^2$], [0.8367],
+)
+
+The model reaches an $R^2$ value of **0.8367**, indicating that it explains approximately 84% of the variance in compressive strength.  
+This represents a substantial improvement over the linear regression models discussed earlier.
+
 == Summarized Results
 
 === Model Performance Comparison
