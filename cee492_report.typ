@@ -438,8 +438,7 @@ Because gradient-based optimization is sensitive to input scaling, all features
 were standardized prior to training.
 
 After optimization, the neural network achieved strong predictive performance on
-the held-out test set. The final metrics were: MSE = 43.64, RMSE = 6.61, and MAE
-= 5.07. The coefficient of determination reached R² = 0.837, indicating that the
+the held-out test set. The final metrics were: MSE = 43.64, RMSE = 6.61, and MAE = 5.07. The coefficient of determination reached R² = 0.837, indicating that the
 model explains approximately 84% of the variance in compressive strength. This
 performance surpasses the linear model and confirms that non-linear approaches
 such as neural networks are capable of capturing complex interactions between
