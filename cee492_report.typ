@@ -371,7 +371,7 @@ domain-informed features significantly improved generalization.
   caption: [Comparison of R² scores for all linear regression model variants.]
 ) <fig-comparison>
 
-= Model 2 - Decision Tree
+= Model 2 - Decision Tree 
 
 In this section, we developed a decision tree regression model to predict concrete compressive strength using eight mix design varibles and several engineered features. The dataset was standardized and randomly divided into 80% training set and 20% test set.
 
