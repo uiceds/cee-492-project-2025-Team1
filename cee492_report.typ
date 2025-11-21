@@ -379,7 +379,7 @@ In this section, we developed a decision tree regression model to predict concre
 
 At first we used un-tuned decision tree model as a baseline model to predict the compressive strength. This model was trained pruned to prevent overfitting. The untuned model provided  R² score of 0.59 and 0.99 for train and test data respectively. @fig-dt-test-train and @tbl-untuned-dt provide a comparison of the test and train R² score.
 #figure(
-  image("decision_tree_test_train.png", width: 90%),
+  image("decision_tree_test_train.PNG", width: 90%),
   caption: [Comparison of R² scores for test and train model using decision tree.]
 ) <fig-dt-test-train>
 
@@ -414,7 +414,7 @@ To improve the model performance,we performed comprehensive hyperparameter tunin
 @fig-dt-tuned shows the R² score for the tuned model. The R² score improved from 0.59 to 0.68 after tuning the model. @tbl-dt-comparison provides a comparison of the untuned and tuned model performance.
 
 #figure(
-  image("decision_tree_tuned.png", width: 90%),
+  image("decision_tree_tuned.PNG", width: 90%),
   caption: [R² score for the tuned model using decision tree.]
 ) <fig-dt-tuned>
 
