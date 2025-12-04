@@ -601,6 +601,10 @@ Both tuned and untuned random forest models were validated using 5-fold cross-va
 
 = Model 4 – Neural Network
 
+In addition to the previously evaluated models, a neural network was developed to investigate whether a more flexible, non-linear approach could further improve predictive accuracy.
+
+== Neural Network Model
+
 To capture the non-linear relationships present in the concrete mixture data, we
 developed a feed-forward neural network trained using a custom gradient descent
 optimizer. The model uses eight standardized input features and produces a single
@@ -634,6 +638,33 @@ To visually assess the predictive quality of the neural network, the true compre
   image("figures-NeuralNetwork-Georg/01_PredictionAccuracy.png", width: 80%),
   caption: [Model accuracy plot comparing predicted vs. true concrete strengths. Points close to the diagonal indicate high predictive performance.]
 ) <fig-nn>
+
+== Cross-Validation Performance
+
+To further assess the robustness and generalization capability of the neural network, a 5-fold cross validation was performed. In each fold, the model was re-initialized and trained from scratch using the same architecture and hyperparameters as in the main experiment. The coefficient of determination (R²) was computed on the validation fold to quantify predictive accuracy.
+
+The results show consistently strong performance across all folds, with R² values ranging from 0.803 to 0.839 and a mean cross-validated score of R² = 0.820. This demonstrates that the neural network generalizes reliably to unseen data and that its predictive accuracy is not dependent on a particular train–test split.
+
+#figure(
+  caption: [Performance metrics of the Neural Network under 5-Fold Cross Validation.],
+  placement: none,
+
+  table(
+    columns: (3.5cm, 3.5cm),
+    align: center,
+
+    table.header(
+      [*Fold*], [*R² Score*]
+    ),
+
+    [1], [0.8155],
+    [2], [0.8386],
+    [3], [0.8053],
+    [4], [0.8374],
+    [5], [0.8032],
+    [*Mean*], [0.8200],
+  )
+) <tbl-NN>
 
 
 = Summarized Results
@@ -689,7 +720,12 @@ table(
 === Random Forest – Untuned (5-Fold)
 - Fold Scores (R²): 0.5388, 0.5357, 0.5646, 0.6020, 0.4307  
 - Mean R²: 0.534  
-- Standard Deviation: 0.067  
+- Standard Deviation: 0.067
+
+=== Neural Network (5-Fold)
+- Fold Scores (R²): 0.8155, 0.8386, 0.8053, 0.8374, 0.8032  
+- Mean R²: 0.8200 
+- Standard Deviation: 0.015  
 
 == Key Findings
 1. *Best Performing Model*: Neural Network achieved the highest test accuracy with R² = 0.837  
