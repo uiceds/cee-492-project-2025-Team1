@@ -211,7 +211,7 @@ Performance was assessed using R², RMSE, and MAE. Cross-validation was used for
 
 This section presents the development and evaluation of the Linear Regression models implemented in Julia using gradient descent optimization. Several preprocessing strategies and feature-engineering techniques were compared.
 
-== Basic Linear Model
+== Basic Linear Model 
 
 The first model used raw, unstandardized features.
 
