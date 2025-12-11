@@ -417,6 +417,10 @@ begin
 	r2_plot = bar(models, test_r2, 
 		title="Model Comparison - R² Score (Test Set)",
 		ylabel="R²",
+				  titlefont = font(18, "Times"),
+    guidefont = font(16, "Times"),
+    tickfont = font(16, "Times"),
+				  xrotation=45,
 		legend=false,
 		color=:blue,
 		alpha=0.7)
@@ -425,8 +429,12 @@ begin
 	rmse_plot = bar(models, test_rmse,
 		title="Model Comparison - RMSE (Test Set)",
 		ylabel="RMSE (MPa)",
+					xrotation=45,
 		legend=false,
 		color=:red,
+					titlefont = font(18, "Times"),
+    guidefont = font(16, "Times"),
+    tickfont = font(16, "Times"),
 		alpha=0.7)
 	
 	# Actual vs Predicted plots for best model
@@ -448,6 +456,10 @@ begin
 		xlabel="Actual Strength (MPa)",
 		ylabel="Predicted Strength (MPa)",
 		label="Predictions",
+						   titlefont = font(18, "Times"),
+    guidefont = font(16, "Times"),
+    tickfont = font(16, "Times"),
+			    legendfont = font(12, "Times"),			   
 		color=:blue,
 		alpha=0.6)
 	
@@ -464,6 +476,10 @@ begin
 		title="Residual Plot ($best_model_name)",
 		xlabel="Predicted Strength (MPa)",
 		ylabel="Residuals (MPa)",
+							titlefont = font(18, "Times"),
+    guidefont = font(16, "Times"),
+    tickfont = font(16, "Times"),
+							legendfont = font(12, "Times"),	
 		label="",
 		color=:purple,
 		alpha=0.6)
@@ -472,9 +488,10 @@ begin
 	
 	# Combine plots
 	model_comparison_plot = plot(r2_plot, rmse_plot, scatter_plot, residual_plot,
-		layout=(2,2), size=(1200, 800))
+		layout=(2,2), size=(1000, 1000))
 	
 	savefig(model_comparison_plot, "model_comparison.png")
+	model_comparison_plot
 end
 
 # ╔═╡ 32536090-1dd6-4612-bdb3-6231071b9b5b
@@ -497,7 +514,7 @@ begin
 	# Plot feature importance
 	importance_plot = plot(
 		layout = (1,2),
-		size = (1000, 500)
+		size = (1000, 900)
 	)
 	
 	# Decision Tree importance
@@ -509,6 +526,9 @@ begin
 		color=:green,
 		alpha=0.7,
 		xrotation=45,
+		 	   titlefont = font(18, "Times"),
+    guidefont = font(16, "Times"),
+    tickfont = font(16, "Times"),
 		subplot=1)
 	
 	# Random Forest importance
@@ -520,9 +540,13 @@ begin
 		color=:orange,
 		alpha=0.7,
 		xrotation=45,
+		 	   titlefont = font(18, "Times"),
+    guidefont = font(16, "Times"),
+    tickfont = font(16, "Times"),
 		subplot=2)
 	
 	savefig(importance_plot, "feature_importance.png")
+	importance_plot
 end
 
 # ╔═╡ 0764701b-022b-439d-88e6-9fc5b1e35caf
@@ -2998,7 +3022,7 @@ uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
 version = "1.59.0+0"
 
 [[deps.oneTBB_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl"]
+deps = ["Artifacts", "JLLWrappers", "LazyArtifacts", "Libdl"]
 git-tree-sha1 = "d5a767a3bb77135a99e433afe0eb14cd7f6914c3"
 uuid = "1317d2d5-d96f-522e-a858-c73665f53c3e"
 version = "2022.0.0+0"

@@ -372,7 +372,7 @@ In this section, we developed a decision tree regression model to predict concre
 
 At first we used un-tuned decision tree model as a baseline model to predict the compressive strength. This model was trained pruned to prevent overfitting. The untuned model provided  R² score of 0.995 and 0.590 for train and test data respectively. @fig-dt-test-train and @tbl-untuned-dt provide a comparison of the test and train R² score.
 #figure(
-  image("decision_tree_test_train.PNG", width: 90%),
+  image("decision_tree_test_train.png", width: 90%),
   caption: [Comparison of R² scores for test and train model using decision tree.]
 ) <fig-dt-test-train>
 
@@ -407,7 +407,7 @@ To improve the model performance,we performed comprehensive hyperparameter tunin
 @fig-dt-tuned shows the R² score for the tuned model. The R² score improved from 0.590 to 0.628 after tuning the model. @tbl-dt-comparison provides a comparison of the untuned and tuned model performance.
 
 #figure(
-  image("decision_tree_tuned.PNG", width: 90%),
+  image("decision_tree_tuned.png", width: 90%),
   caption: [R² score for the tuned model using decision tree.]
 ) <fig-dt-tuned>
 
@@ -602,8 +602,6 @@ To capture the complex non-linear interactions among the concrete mixture compon
 The architecture consists of an input layer with six features, followed by five hidden layers with 128, 64, 64, 32, and 16 neurons respectively, each using the ReLU activation function, and a final output neuron representing the predicted compressive strength. Forward propagation is computed layer by layer as a series of linear transformations followed by ReLU activations, except for the output layer, which is linear.
 
 Prior to training, all features were standardized to ensure stable gradient-based optimization. The network was trained using the Adam optimizer with a learning rate of 0.01 over 2000 epochs using full-batch gradient descent. The Mean Squared Error (MSE) was used as the loss function.
-
-After training, the model achieved strong predictive performance. The final metrics for the training and test sets were:
 
 To visually assess the predictive quality of the neural network, the true compressive strengths from the test set were plotted against the model’s predicted values in @fig-nn.
 

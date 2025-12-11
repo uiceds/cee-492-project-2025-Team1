@@ -40,8 +40,8 @@ begin
 	histogram_plot = plot(
     layout = (4, 2),
     size = (1000, 700),
-    titlefont = font(12, "Times"),
-    guidefont = font(12, "Times"),
+    titlefont = font(18, "Times"),
+    guidefont = font(16, "Times"),
     tickfont = font(12, "Times"),
     legend = false,
     grid = false,
@@ -64,9 +64,9 @@ target = names(df)[end]
 scatter_plot =  plot(
     layout = (4, 2),
     size = (1000, 900),
-    titlefont = font(12, "Arial"),
-    guidefont = font(12, "Arial"),
-    tickfont = font(12, "Arial"),
+    titlefont = font(16, "Times"),
+    guidefont = font(18, "Times"),
+    tickfont = font(18, "Times"),
     legend = false,
     grid = false,
 	subplot_margin = 4,
@@ -80,13 +80,31 @@ savefig(scatter_plot, "scatter.png")
 scatter_plot
 end
 
+# ╔═╡ d7bc7cf4-1a42-4081-9c2e-ae4a3ab78b8c
+begin
+	df1 = df
+		# Rename columns to shorter names
+	rename!(df1, 
+		"Cement  (Kg/m3)" => "Cement",
+		"Blast Furnace Slag  (Kg/m3)" => "Slag",
+		"Fly Ash  (Kg/m3)" => "FlyAsh",
+		"Water  (Kg/m3)" => "Water",
+		"Superplasticizer  (Kg/m3)" => "Superplasticizer",
+		"Coarse Aggregate  (Kg/m3)" => "CoarseAgg",
+		"Fine Aggregate (Kg/m3)" => "FineAgg",
+		"Age (day)" => "Age",
+		"Concrete compressive strength (MPa) " => "Strength"
+	)
+end
+
 # ╔═╡ eed192d4-4228-4cbb-89ea-41386fa024c2
 begin
 	
 ### 6️⃣ Correlation Heatmap
 # Compute correlation matrix
-corr_matrix = cor(Matrix(df))
-labels = names(df)
+
+corr_matrix = cor(Matrix(df1))
+labels = names(df1)
 
 corr_heatmap = heatmap(
     corr_matrix,
@@ -94,9 +112,9 @@ corr_heatmap = heatmap(
     yticks = (1:length(labels), labels),
     c = :coolwarm,
     title = "Correlation Matrix",
-    titlefont = font(12, "Arial"),
-    guidefont = font(12, "Arial"),
-    tickfont = font(12, "Arial"),
+    titlefont = font(24, "Times"),
+    guidefont = font(18, "Times"),
+    tickfont = font(18, "Times"),
     colorbar_title = "r",
     xrotation = 60,   # ✅ rotate x-axis labels
     yrotation = 0,    # keep y labels horizontal
@@ -110,6 +128,9 @@ savefig(corr_heatmap, "corr.png")
 corr_heatmap
 end
 
+# ╔═╡ faff3a75-0d46-4a32-8c93-0f71480070a6
+names(df)
+
 # ╔═╡ 9cdec2b6-e3ac-4ac0-8cc2-13ee031b12b4
 begin
 	### 7️⃣ Boxplots
@@ -120,9 +141,9 @@ features = names(df)[1:end-1]
 boxplot_plot = plot(
     layout = (4, 2),
     size = (1000, 1400),
-    titlefont = font(14, "Arial"),
-    guidefont = font(14, "Arial"),
-    tickfont = font(14, "Arial"),
+    titlefont = font(30, "Times"),
+    guidefont = font(24, "Times"),
+    tickfont = font(24, "Times"),
     legend = false,
     grid = false,
     background_color = :white,
@@ -182,9 +203,9 @@ p1 = scatter(
     xlabel="PC1 ($(round(explained_variance[1]*100, digits=1))% variance)",
     ylabel="PC2 ($(round(explained_variance[2]*100, digits=1))% variance)",
     title="PCA Projection - Colored by Output",
-	titlefont = font(14, "Arial"),
-    guidefont = font(14, "Arial"),
-    tickfont = font(14, "Arial"),
+	titlefont = font(28, "Times"),
+    guidefont = font(22, "Times"),
+    tickfont = font(22, "Times"),
     legend=false,
     markersize=8,
     markerstrokewidth=0.5,
@@ -199,9 +220,9 @@ p2 = scatter(
     xlabel="Features",
     ylabel="Loading Value",
     title="PCA Loadings - PC1 & PC2",
-	titlefont = font(14, "Arial"),
-    guidefont = font(14, "Arial"),
-    tickfont = font(14, "Arial"),
+	titlefont = font(28, "Times"),
+    guidefont = font(22, "Times"),
+    tickfont = font(22, "Times"),
     label="PC1",
     markersize=8,
     markerstrokewidth=0.5,
@@ -1787,7 +1808,7 @@ uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
 version = "1.59.0+0"
 
 [[deps.oneTBB_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl"]
+deps = ["Artifacts", "JLLWrappers", "LazyArtifacts", "Libdl"]
 git-tree-sha1 = "d5a767a3bb77135a99e433afe0eb14cd7f6914c3"
 uuid = "1317d2d5-d96f-522e-a858-c73665f53c3e"
 version = "2022.0.0+0"
@@ -1822,7 +1843,9 @@ version = "1.9.2+0"
 # ╠═11ec8a1d-3306-4564-ab6b-71496f3be8e8
 # ╠═b0e07f1b-c63f-4941-b1ae-d3a50671ed29
 # ╠═2aad2a7f-e723-4a4b-bf47-82c4c4c180cb
+# ╠═d7bc7cf4-1a42-4081-9c2e-ae4a3ab78b8c
 # ╠═eed192d4-4228-4cbb-89ea-41386fa024c2
+# ╠═faff3a75-0d46-4a32-8c93-0f71480070a6
 # ╠═9cdec2b6-e3ac-4ac0-8cc2-13ee031b12b4
 # ╠═caf7b639-8032-4777-beee-de76ec44f8b7
 # ╠═e9f9e134-a7aa-46bf-b893-f2437550f8b8
