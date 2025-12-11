@@ -325,7 +325,7 @@ The regularization parameter lambda was tuned using grid search. The resulting c
   )
 ) <tbl-l1-results>
 
-== Feature Correlation and Collinearity
+== Feature Correlation and Collinearity 
 The correlation matrix between input variables and the target strength was computed 
 to assess collinearity effects. as shown earlier in @fig-3. Highly collinear features (|r| > 0.8) were removed to create a simplified model with improved interpretability.  
 The performance of this model is shown in @fig-no-collin123.
