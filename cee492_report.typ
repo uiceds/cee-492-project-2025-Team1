@@ -407,7 +407,7 @@ To improve the model performance,we performed comprehensive hyperparameter tunin
 @fig-dt-tuned shows the R² score for the tuned model. The R² score improved from 0.590 to 0.628 after tuning the model. @tbl-dt-comparison provides a comparison of the untuned and tuned model performance.
 
 #figure(
-  image("decision_tree_tuned.png", width: 90%),
+  image("decision_tree_tuned.PNG", width: 90%),
   caption: [R² score for the tuned model using decision tree.]
 ) <fig-dt-tuned>
 
