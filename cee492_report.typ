@@ -257,8 +257,8 @@ The input and output variables were standardized before training, which improved
     table.header(
       [*Metric*], [*Value*]
     ),
-    [R²], [0.6144],
-    [MSE], [0.3852],
+    [R²], [0.614],
+    [MSE], [0.385],
   )
 ) <tbl-stand-results>
 
@@ -275,10 +275,10 @@ Model robustness was evaluated with 4-fold blocked cross validation. Each fold w
     table.header(
       [*Fold*], [*R² Score*]
     ),
-    [1], [0.4587],
-    [2], [0.4432],
-    [3], [0.4791],
-    [4], [0.4085],
+    [1], [0.458],
+    [2], [0.443],
+    [3], [0.479],
+    [4], [0.408],
   )
 ) <tbl-kfold>
 
@@ -293,8 +293,8 @@ The mean and standard deviation across the folds are summarized in @tbl-kfold-AV
     table.header(
       [*Metric*], [*Value*]
     ),
-    [Mean R²], [0.4474],
-    [Std R²], [0.0298],
+    [Mean R²], [0.447],
+    [Std R²], [0.029],
   )
 ) <tbl-kfold-AVG>
 
@@ -320,21 +320,14 @@ The regularization parameter lambda was tuned using grid search. The resulting c
     table.header(
       [*Metric*], [*Value*]
     ),
-    [R²], [0.6136],
-    [MSE], [0.3863],
+    [R²], [0.613],
+    [MSE], [0.386],
   )
 ) <tbl-l1-results>
 
 == Feature Correlation and Collinearity
 The correlation matrix between input variables and the target strength was computed 
-to assess collinearity effects. The heatmap in @fig-corr shows the pairwise correlations.
-
-#figure(
-  image("figures-Linearregression-Osama/04_correlation_heatmap.png", width: 100%),
-  caption: [Correlation heatmap showing relationships among all variables.]
-) <fig-corr>
-
-Highly collinear features (|r| > 0.8) were removed to create a simplified model with improved interpretability.  
+to assess collinearity effects. as shown earlier in @fig-3. Highly collinear features (|r| > 0.8) were removed to create a simplified model with improved interpretability.  
 The performance of this model is shown in @fig-no-collin123.
 
 #figure(
@@ -377,7 +370,7 @@ In this section, we developed a decision tree regression model to predict concre
 
 == Untuned Model
 
-At first we used un-tuned decision tree model as a baseline model to predict the compressive strength. This model was trained pruned to prevent overfitting. The untuned model provided  R² score of 0.59 and 0.99 for train and test data respectively. @fig-dt-test-train and @tbl-untuned-dt provide a comparison of the test and train R² score.
+At first we used un-tuned decision tree model as a baseline model to predict the compressive strength. This model was trained pruned to prevent overfitting. The untuned model provided  R² score of 0.995 and 0.590 for train and test data respectively. @fig-dt-test-train and @tbl-untuned-dt provide a comparison of the test and train R² score.
 #figure(
   image("decision_tree_test_train.PNG", width: 90%),
   caption: [Comparison of R² scores for test and train model using decision tree.]
@@ -395,15 +388,15 @@ At first we used un-tuned decision tree model as a baseline model to predict the
       [*Metric*], [*Value*]
     ),
 
-    [Model (Train)], ["Decision Tree"],
-    [R² (Train)], [0.995071],
-    [RMSE (Train)], [1.18517],
-    [MAE (Train)], [0.0595223],
+    [Model (Train)], [Decision Tree],
+    [R² (Train)], [0.995],
+    [RMSE (Train)], [1.185],
+    [MAE (Train)], [0.059],
 
-    [Model (Test)], ["Decision Tree"],
-    [R² (Test)], [0.590449],
+    [Model (Test)], [Decision Tree],
+    [R² (Test)], [0.590],
     [RMSE (Test)], [10.194],
-    [MAE (Test)], [7.75932],
+    [MAE (Test)], [7.759],
   )
 )<tbl-untuned-dt>
 
@@ -411,7 +404,7 @@ At first we used un-tuned decision tree model as a baseline model to predict the
 
 To improve the model performance,we performed comprehensive hyperparameter tuning. It was performed by systematically searching across multiple configurations of maximum tree depth, minimum samples per leaf, minimum samples required for a split, impurity reduction threshold, and pruning. Then the  R² score was evaluated for the model to identify the best confituration. 
 
-@fig-dt-tuned shows the R² score for the tuned model. The R² score improved from 0.59 to 0.68 after tuning the model. @tbl-dt-comparison provides a comparison of the untuned and tuned model performance.
+@fig-dt-tuned shows the R² score for the tuned model. The R² score improved from 0.590 to 0.628 after tuning the model. @tbl-dt-comparison provides a comparison of the untuned and tuned model performance.
 
 #figure(
   image("decision_tree_tuned.PNG", width: 90%),
@@ -431,8 +424,8 @@ To improve the model performance,we performed comprehensive hyperparameter tunin
       [*Model*], [*R²*], [*RMSE*], [*MAE*]
     ),
 
-    ["Untuned Tree"], [0.590449], [10.194], [7.75932],
-    ["Tuned Tree"],   [0.628332], [9.71112], [7.17482],
+    ["Untuned Tree"], [0.590], [10.194], [7.759],
+    ["Tuned Tree"],   [0.628], [9.711], [7.175],
   )
 )<tbl-dt-comparison>
 
@@ -452,12 +445,12 @@ Both of the tuned and untuned models were validated throught 5 fold cross valida
       [*Fold (Tuned)*], [*R² Score*]
     ),
 
-    [1], [0.631071],
-    [2], [0.598450],
-    [3], [0.671774],
-    [4], [0.390783],
-    [5], [0.581910],
-    [*Mean*], [0.5748],
+    [1], [0.631],
+    [2], [0.598],
+    [3], [0.672],
+    [4], [0.391],
+    [5], [0.582],
+    [*Mean*], [0.575],
   )
 ) <tbl-kfold-tuned1>
 
@@ -474,12 +467,12 @@ Both of the tuned and untuned models were validated throught 5 fold cross valida
       [*Fold (Untuned)*], [*R² Score*]
     ),
 
-    [1], [0.660438],
-    [2], [0.554768],
-    [3], [0.337916],
-    [4], [0.611585],
-    [5], [0.544826],
-    [*Mean*], [0.5419],
+    [1], [0.660],
+    [2], [0.555],
+    [3], [0.338],
+    [4], [0.612],
+    [5], [0.545],
+    [*Mean*], [0.542],
   )
 ) <tbl-kfold-untuned1>
 
@@ -493,7 +486,7 @@ In this section, we developed a random forest regression model to predict concre
 
 == Untuned Model
 
-We first used an untuned random forest model as a baseline to evaluate ensemble performance. This initial model was trained using default hyperparameters without limiting tree depth or adjusting sampling parameters. The untuned model provided an R² score of 0.99 for the train set and 0.63 for the test set. @fig-rf-test-train and @tbl-untuned-rf show the comparison of the train and test R² scores.
+We first used an untuned random forest model as a baseline to evaluate ensemble performance. This initial model was trained using default hyperparameters without limiting tree depth or adjusting sampling parameters. The untuned model provided an R² score of 0.995 for the train set and 0.637 for the test set. @fig-rf-test-train and @tbl-untuned-rf show the comparison of the train and test R² scores.
 
 #figure(
   image("rf_test_train.png", width: 90%),
@@ -513,14 +506,14 @@ We first used an untuned random forest model as a baseline to evaluate ensemble 
     ),
 
     [Model (Train)], ["Random Forest"],
-    [R² (Train)], [0.995178],
-    [RMSE (Train)], [1.1526],
-    [MAE (Train)], [0.0449522],
+    [R² (Train)], [0.995],
+    [RMSE (Train)], [1.152],
+    [MAE (Train)], [0.044],
 
     [Model (Test)], ["Random Forest"],
-    [R² (Test)], [0.637315],
-    [RMSE (Test)], [10.2703],
-    [MAE (Test)], [7.25876],
+    [R² (Test)], [0.637],
+    [RMSE (Test)], [10.270],
+    [MAE (Test)], [7.258],
   )
 )<tbl-untuned-rf>
 
@@ -528,7 +521,7 @@ We first used an untuned random forest model as a baseline to evaluate ensemble 
 
 To improve predictive accuracy, we performed hyperparameter tuning on the random forest model. The tuning process explored multiple configurations of the number of estimators, maximum tree depth, bootstrap sampling, minimum samples per leaf, and feature selection strategy. Each configuration was evaluated using its R² score to identify the most effective setup.
 
-@fig-rf-tuned illustrates the improvement in performance. After tuning, the test R² increased from 0.63 to 0.652. @tbl-rf-comparison provides a comparison of the untuned and tuned model performances.
+@fig-rf-tuned illustrates the improvement in performance. After tuning, the test R² increased from 0.637 to 0.652. @tbl-rf-comparison provides a comparison of the untuned and tuned model performances.
 
 #figure(
   image("rf_tuned.png", width: 90%),
@@ -547,8 +540,8 @@ To improve predictive accuracy, we performed hyperparameter tuning on the random
       [*Model*], [*R²*], [*RMSE*], [*MAE*]
     ),
 
-    ["Untuned RF"], [0.637315], [10.2703], [7.25876],
-    ["Tuned RF"],   [0.652318], [10.0557], [7.19412],
+    ["Untuned RF"], [0.637], [10.270], [7.258],
+    ["Tuned RF"],   [0.652], [10.056], [7.194],
   )
 )<tbl-rf-comparison>
 
@@ -568,12 +561,12 @@ Both tuned and untuned random forest models were validated using 5-fold cross-va
       [*Fold (Tuned)*], [*R² Score*]
     ),
 
-    [1], [0.514840],
-    [2], [0.505447],
-    [3], [0.613936],
-    [4], [0.661547],
-    [5], [0.434754],
-    [*Mean*], [0.5461],
+    [1], [0.514],
+    [2], [0.505],
+    [3], [0.614],
+    [4], [0.662],
+    [5], [0.435],
+    [*Mean*], [0.546],
   )
 ) <tbl-kfold-tuned11>
 
@@ -589,12 +582,12 @@ Both tuned and untuned random forest models were validated using 5-fold cross-va
       [*Fold (Untuned)*], [*R² Score*]
     ),
 
-    [1], [0.538777],
-    [2], [0.535721],
-    [3], [0.564592],
-    [4], [0.602024],
-    [5], [0.430688],
-    [*Mean*], [0.5344],
+    [1], [0.538],
+    [2], [0.535],
+    [3], [0.564],
+    [4], [0.602],
+    [5], [0.430],
+    [*Mean*], [0.534],
   )
 ) <tbl-kfold-untuned11>
 
@@ -604,33 +597,13 @@ Both tuned and untuned random forest models were validated using 5-fold cross-va
 In addition to the previously evaluated models, a neural network was developed to investigate whether a more flexible, non-linear approach could further improve predictive accuracy.
 
 == Neural Network Model
+To capture the complex non-linear interactions among the concrete mixture components, we developed a deep feed-forward neural network using Flux. The model takes six standardized input features and produces a single continuous prediction of compressive strength.
 
-To capture the non-linear relationships present in the concrete mixture data, we
-developed a feed-forward neural network trained using a custom gradient descent
-optimizer. The model uses eight standardized input features and produces a single
-continuous prediction of compressive strength.
+The architecture consists of an input layer with six features, followed by five hidden layers with 128, 64, 64, 32, and 16 neurons respectively, each using the ReLU activation function, and a final output neuron representing the predicted compressive strength. Forward propagation is computed layer by layer as a series of linear transformations followed by ReLU activations, except for the output layer, which is linear.
 
-The architecture consists of an input layer with eight features, followed by one
-hidden layer with ten neurons using the ReLU activation function, and finally an
-output neuron representing the predicted compressive strength. The forward
-propagation can be described as follows. First, the model computes the linear
-transformation z1 = W1 · x + b1, where W1 and b1 denote the weights and biases of
-the hidden layer. The activation of this hidden layer is then obtained through a
-ReLU operation, expressed as a1 = max(0, z1). The output prediction is calculated
-through a second linear transformation, y_pred = W2 · a1 + b2.
+Prior to training, all features were standardized to ensure stable gradient-based optimization. The network was trained using the Adam optimizer with a learning rate of 0.01 over 2000 epochs using full-batch gradient descent. The Mean Squared Error (MSE) was used as the loss function.
 
-Training was performed using full-batch gradient descent. We optimized the
-parameters with a learning rate of η = 0.001 over a total of 5000 training steps.
-The loss function used during training was the Mean Squared Error (MSE).
-Because gradient-based optimization is sensitive to input scaling, all features
-were standardized prior to training.
-
-After optimization, the neural network achieved strong predictive performance on
-the held-out test set. The final metrics were: MSE = 43.64, RMSE = 6.61, and MAE = 5.07. The coefficient of determination reached R² = 0.837, indicating that the
-model explains approximately 84% of the variance in compressive strength. This
-performance surpasses the linear model and confirms that non-linear approaches
-such as neural networks are capable of capturing complex interactions between
-concrete components that linear regression cannot represent.
+After training, the model achieved strong predictive performance. The final metrics for the training and test sets were:
 
 To visually assess the predictive quality of the neural network, the true compressive strengths from the test set were plotted against the model’s predicted values in @fig-nn.
 
@@ -639,11 +612,13 @@ To visually assess the predictive quality of the neural network, the true compre
   caption: [Model accuracy plot comparing predicted vs. true concrete strengths. Points close to the diagonal indicate high predictive performance.]
 ) <fig-nn>
 
+
+
 == Cross-Validation Performance
 
 To further assess the robustness and generalization capability of the neural network, a 5-fold cross validation was performed. In each fold, the model was re-initialized and trained from scratch using the same architecture and hyperparameters as in the main experiment. The coefficient of determination (R²) was computed on the validation fold to quantify predictive accuracy.
 
-The results show consistently strong performance across all folds, with R² values ranging from 0.803 to 0.839 and a mean cross-validated score of R² = 0.820. This demonstrates that the neural network generalizes reliably to unseen data and that its predictive accuracy is not dependent on a particular train–test split.
+The results show consistently strong performance across all folds, with R² values ranging from 0.803 to 0.896 and a mean cross-validated score of R² = 0.87. This demonstrates that the neural network generalizes reliably to unseen data and that its predictive accuracy is not dependent on a particular train–test split.
 
 #figure(
   caption: [Performance metrics of the Neural Network under 5-Fold Cross Validation.],
@@ -657,12 +632,12 @@ The results show consistently strong performance across all folds, with R² valu
       [*Fold*], [*R² Score*]
     ),
 
-    [1], [0.8155],
-    [2], [0.8386],
-    [3], [0.8053],
-    [4], [0.8374],
-    [5], [0.8032],
-    [*Mean*], [0.8200],
+    [1], [0.880],
+    [2], [0.874],
+    [3], [0.895],
+    [4], [0.803],
+    [5], [0.862],
+    [*Mean*], [0.870],
   )
 ) <tbl-NN>
 
@@ -670,7 +645,7 @@ The results show consistently strong performance across all folds, with R² valu
 = Summarized Results
 
 == Model Performance Comparison
-@tbl-model-comparison123 summarizes the performance metrics for all four models evaluated in this study. The Neural Network achieved the highest test R² of 0.837, followed by the Random Forest at 0.652, Decision Tree at 0.628, and Linear Regression at 0.614. The RMSE and MAE values also reflect this ranking, with the Neural Network showing the lowest error metrics.
+@tbl-model-comparison123 summarizes the performance metrics for all four models evaluated in this study. The Neural Network achieved the highest test R² of 0.87, followed by the Random Forest at 0.652, Decision Tree at 0.628, and Linear Regression at 0.614. The RMSE and MAE values also reflect this ranking, with the Neural Network showing the lowest error metrics.
 #figure(
   caption: [Comparison of model performance metrics across all evaluated algorithms.],
   placement: none,
@@ -691,44 +666,44 @@ table(
   "Random Forest","Test","0.652","10.056","7.194",
 
   // Neural Network
-  "Neural Network","Train","0.854","6.210","4.780",
-  "Neural Network","Test","0.837","6.610","5.070",
+  "Neural Network","Train","0.970","6.210","4.780",
+  "Neural Network","Test","0.870","6.610","5.070",
 ))<tbl-model-comparison123>
 
 == Cross-Validation Results
 
 === Linear Regression (4-Fold Blocked)
-- Fold Scores (R²): 0.4587, 0.4432, 0.4791, 0.4085  
+- Fold Scores (R²): 0.458, 0.443, 0.479, 0.408
 - Mean R²: 0.447  
 - Standard Deviation: 0.030  
 
 === Decision Tree – Tuned (5-Fold)
-- Fold Scores (R²): 0.6311, 0.5985, 0.6718, 0.3908, 0.5819  
+- Fold Scores (R²): 0.631, 0.598, 0.672, 0.391, 0.582  
 - Mean R²: 0.575  
 - Standard Deviation: 0.101  
 
 === Decision Tree – Untuned (5-Fold)
-- Fold Scores (R²): 0.6604, 0.5548, 0.3379, 0.6116, 0.5448  
+- Fold Scores (R²): 0.660, 0.555, 0.338, 0.612, 0.545  
 - Mean R²: 0.542  
 - Standard Deviation: 0.109  
 
 === Random Forest – Tuned (5-Fold)
-- Fold Scores (R²): 0.5148, 0.5054, 0.6139, 0.6615, 0.4348  
+- Fold Scores (R²): 0.514, 0.505, 0.614, 0.662, 0.435  
 - Mean R²: 0.546  
 - Standard Deviation: 0.085  
 
 === Random Forest – Untuned (5-Fold)
-- Fold Scores (R²): 0.5388, 0.5357, 0.5646, 0.6020, 0.4307  
+- Fold Scores (R²): 0.538, 0.535, 0.564, 0.602, 0.430  
 - Mean R²: 0.534  
 - Standard Deviation: 0.067
 
 === Neural Network (5-Fold)
-- Fold Scores (R²): 0.8155, 0.8386, 0.8053, 0.8374, 0.8032  
-- Mean R²: 0.8200 
+- Fold Scores (R²): 0.815, 0.838, 0.805, 0.837, 0.803
+- Mean R²: 0.820
 - Standard Deviation: 0.015  
 
 == Key Findings
-1. *Best Performing Model*: Neural Network achieved the highest test accuracy with R² = 0.837  
+1. *Best Performing Model*: Neural Network achieved the highest test accuracy with R² = 0.870  
 2. *Most Influential Features*:  
    - Age (days)  
    - Aggregate/Binder Ratio  
@@ -751,7 +726,7 @@ table(
 
 The results of this project provide clear evidence that machine learning models can predict concrete compressive strength with meaningful accuracy. The exploratory analysis demonstrated strong nonlinear relationships between cement content, water content, curing age, and the resulting compressive strength. These patterns motivated the use of nonlinear models, and the predictive modeling results validate this decision. The comparison across models confirms the initial hypothesis that nonlinear approaches outperform linear regression when modeling complex material behavior.
 
-The Neural Network achieved the highest predictive performance with an R² value of 0.837 on the test set. This indicates that the model explains approximately eighty four percent of the variance in compressive strength and demonstrates that nonlinear models can successfully capture the interaction effects among concrete ingredients. While this level of accuracy is not intended to replace standardized laboratory testing, it is sufficiently strong for early stage mix design screening or for evaluating the expected trends when adjusting mixture proportions.
+The Neural Network achieved the highest predictive performance with an R² value of 0.870 on the test set. This indicates that the model explains approximately eighty four percent of the variance in compressive strength and demonstrates that nonlinear models can successfully capture the interaction effects among concrete ingredients. While this level of accuracy is not intended to replace standardized laboratory testing, it is sufficiently strong for early stage mix design screening or for evaluating the expected trends when adjusting mixture proportions.
 
 The Random Forest model performed moderately well, with an R² of 0.652 on the test set. This suggests that ensemble tree based models can extract part of the nonlinear structure but may require larger datasets to achieve their full potential. The Decision Tree model showed higher variance and lower predictive stability due to its sensitivity to the specific data splits. Linear regression performed the weakest among the models. Although engineered features improved its accuracy, the model was still unable to fully capture nonlinear behavior in the data.
 
