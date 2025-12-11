@@ -239,7 +239,7 @@ Performance metrics are summarized in @tbl-basic-results, and @fig-basic-model s
   )
 ) <tbl-basic-results>
 
-== Standardized Linear Model
+== Standardized Linear Model 
 
 The input and output variables were standardized before training, which improved model stability and convergence. The resulting performance is shown in @fig-standardized and @tbl-stand-results.
 
