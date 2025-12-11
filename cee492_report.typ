@@ -734,7 +734,7 @@ If this project were to continue beyond this semester, several next steps would 
 
 Overall, the findings support the hypothesis that nonlinear machine learning models improve the prediction of concrete compressive strength and demonstrate that these techniques can offer meaningful insight into how mix proportions influence material performance.
 
-= Conclusion
+= Conclusions
 
 This project applied a range of machine learning techniques to predict concrete compressive strength using a widely studied dataset of mix design variables. The analysis showed that concrete strength is influenced by several interacting factors, including cement content, water content, and curing age, and these interactions introduce nonlinear behavior that simple linear models cannot fully capture. By examining the dataset through exploratory visualizations and summary statistics, we identified patterns that directly informed the modeling choices.
 
