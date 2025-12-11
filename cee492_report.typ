@@ -260,7 +260,7 @@ The input and output variables were standardized before training, which improved
     [R²], [0.614],
     [MSE], [0.385],
   )
-) <tbl-stand-results>
+) <tbl-stand-results> 
 
 == K-fold Cross Validation
 
