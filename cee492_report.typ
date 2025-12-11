@@ -335,7 +335,7 @@ The performance of this model is shown in @fig-no-collin123.
   caption: [Linear regression model after removing collinear features.]
 ) <fig-no-collin123>
 
-== PCA-Based Model
+== PCA-Based Model 
 Principal Component Analysis (PCA) was applied to reduce dimensionality.  
 The model was trained on the first eight principal components, explaining over 95% of the total variance. @fig-pca shows the performance of this PCA-based regression model.
 
