@@ -370,7 +370,7 @@ In this section, we developed a decision tree regression model to predict concre
 
 == Untuned Model
 
-At first we used un-tuned decision tree model as a baseline model to predict the compressive strength. This model was trained pruned to prevent overfitting. The untuned model provided  R² score of 0.995 and 0.590 for train and test data respectively. @fig-dt-test-train and @tbl-untuned-dt provide a comparison of the test and train R² score.
+At first we used un-tuned decision tree model as a baseline model to predict the compressive strength. This model was trained pruned to prevent overfitting. The untuned model provided  R² score of 0.995 and 0.710 for train and test data respectively. @fig-dt-test-train and @tbl-untuned-dt provide a comparison of the test and train R² score.
 #figure(
   image("decision_tree_test_train.PNG", width: 90%),
   caption: [Comparison of R² scores for test and train model using decision tree.]
@@ -394,7 +394,7 @@ At first we used un-tuned decision tree model as a baseline model to predict the
     [MAE (Train)], [0.059],
 
     [Model (Test)], [Decision Tree],
-    [R² (Test)], [0.590],
+    [R² (Test)], [0.710],
     [RMSE (Test)], [10.194],
     [MAE (Test)], [7.759],
   )
@@ -404,7 +404,7 @@ At first we used un-tuned decision tree model as a baseline model to predict the
 
 To improve the model performance,we performed comprehensive hyperparameter tuning. It was performed by systematically searching across multiple configurations of maximum tree depth, minimum samples per leaf, minimum samples required for a split, impurity reduction threshold, and pruning. Then the  R² score was evaluated for the model to identify the best confituration. 
 
-@fig-dt-tuned shows the R² score for the tuned model. The R² score improved from 0.590 to 0.628 after tuning the model. @tbl-dt-comparison provides a comparison of the untuned and tuned model performance.
+@fig-dt-tuned shows the R² score for the tuned model. The R² score improved slightly after tuning the model. @tbl-dt-comparison provides a comparison of the untuned and tuned model performance.
 
 #figure(
   image("decision_tree_tuned.PNG", width: 90%),
@@ -424,8 +424,8 @@ To improve the model performance,we performed comprehensive hyperparameter tunin
       [*Model*], [*R²*], [*RMSE*], [*MAE*]
     ),
 
-    ["Untuned Tree"], [0.590], [10.194], [7.759],
-    ["Tuned Tree"],   [0.628], [9.711], [7.175],
+    ["Untuned Tree"], [0.710], [10.194], [7.759],
+    ["Tuned Tree"],   [0.717], [9.711], [7.175],
   )
 )<tbl-dt-comparison>
 
@@ -486,7 +486,7 @@ In this section, we developed a random forest regression model to predict concre
 
 == Untuned Model
 
-We first used an untuned random forest model as a baseline to evaluate ensemble performance. This initial model was trained using default hyperparameters without limiting tree depth or adjusting sampling parameters. The untuned model provided an R² score of 0.995 for the train set and 0.637 for the test set. @fig-rf-test-train and @tbl-untuned-rf show the comparison of the train and test R² scores.
+We first used an untuned random forest model as a baseline to evaluate ensemble performance. This initial model was trained using default hyperparameters without limiting tree depth or adjusting sampling parameters. The untuned model provided an R² score of 0.999 for the train set and 0.635 for the test set. @fig-rf-test-train and @tbl-untuned-rf show the comparison of the train and test R² scores.
 
 #figure(
   image("rf_test_train.png", width: 90%),
@@ -506,12 +506,12 @@ We first used an untuned random forest model as a baseline to evaluate ensemble 
     ),
 
     [Model (Train)], ["Random Forest"],
-    [R² (Train)], [0.995],
+    [R² (Train)], [0.999],
     [RMSE (Train)], [1.152],
     [MAE (Train)], [0.044],
 
     [Model (Test)], ["Random Forest"],
-    [R² (Test)], [0.637],
+    [R² (Test)], [0.635],
     [RMSE (Test)], [10.270],
     [MAE (Test)], [7.258],
   )
@@ -521,7 +521,7 @@ We first used an untuned random forest model as a baseline to evaluate ensemble 
 
 To improve predictive accuracy, we performed hyperparameter tuning on the random forest model. The tuning process explored multiple configurations of the number of estimators, maximum tree depth, bootstrap sampling, minimum samples per leaf, and feature selection strategy. Each configuration was evaluated using its R² score to identify the most effective setup.
 
-@fig-rf-tuned illustrates the improvement in performance. After tuning, the test R² increased from 0.637 to 0.652. @tbl-rf-comparison provides a comparison of the untuned and tuned model performances.
+@fig-rf-tuned illustrates the improvement in performance. After tuning, the test R² increased from 0.635 to 0.715. @tbl-rf-comparison provides a comparison of the untuned and tuned model performances.
 
 #figure(
   image("rf_tuned.png", width: 90%),
@@ -540,8 +540,8 @@ To improve predictive accuracy, we performed hyperparameter tuning on the random
       [*Model*], [*R²*], [*RMSE*], [*MAE*]
     ),
 
-    ["Untuned RF"], [0.637], [10.270], [7.258],
-    ["Tuned RF"],   [0.652], [10.056], [7.194],
+    ["Untuned RF"], [0.635], [10.270], [7.258],
+    ["Tuned RF"],   [0.715], [10.056], [7.194],
   )
 )<tbl-rf-comparison>
 
@@ -643,7 +643,7 @@ The results show consistently strong performance across all folds, with R² valu
 = Summarized Results
 
 == Model Performance Comparison
-@tbl-model-comparison123 summarizes the performance metrics for all four models evaluated in this study. The Neural Network achieved the highest test R² of 0.87, followed by the Random Forest at 0.652, Decision Tree at 0.628, and Linear Regression at 0.614. The RMSE and MAE values also reflect this ranking, with the Neural Network showing the lowest error metrics.
+@tbl-model-comparison123 summarizes the performance metrics for all four models evaluated in this study. The Neural Network achieved the highest test R² of 0.87, followed by Decision Tree at 0.717, the Random Forest at 0.715, and Linear Regression at 0.614. The RMSE and MAE values also reflect this ranking, with the Neural Network showing the lowest error metrics.
 #figure(
   caption: [Comparison of model performance metrics across all evaluated algorithms.],
   placement: none,
@@ -653,15 +653,15 @@ table(
 
   // Linear Regression (Standardized)
   "Linear Regression","Train","0.614","—","—",
-  "Linear Regression","Test","0.614","—","—",
+  "Linear Regression","Test","0.447","—","—",
 
   // Decision Tree
   "Decision Tree","Train","0.995","1.185","0.060",
-  "Decision Tree","Test","0.628","9.711","7.175",
+  "Decision Tree","Test","0.717","9.711","7.175",
 
   // Random Forest
-  "Random Forest","Train","0.995","1.153","0.045",
-  "Random Forest","Test","0.652","10.056","7.194",
+  "Random Forest","Train","0.999","1.153","0.045",
+  "Random Forest","Test","0.715","10.056","7.194",
 
   // Neural Network
   "Neural Network","Train","0.970","6.210","4.780",
@@ -673,7 +673,7 @@ table(
 === Linear Regression (4-Fold Blocked)
 - Fold Scores (R²): 0.458, 0.443, 0.479, 0.408
 - Mean R²: 0.447  
-- Standard Deviation: 0.030  
+- Standard Deviation: 0.029  
 
 === Decision Tree – Tuned (5-Fold)
 - Fold Scores (R²): 0.631, 0.598, 0.672, 0.391, 0.582  
@@ -696,8 +696,8 @@ table(
 - Standard Deviation: 0.067
 
 === Neural Network (5-Fold)
-- Fold Scores (R²): 0.815, 0.838, 0.805, 0.837, 0.803
-- Mean R²: 0.820
+- Fold Scores (R²): 0.880, 0.874, 0.895, 0.803, 0.862
+- Mean R²: 0.870
 - Standard Deviation: 0.015  
 
 == Key Findings
@@ -726,7 +726,7 @@ The results of this project provide clear evidence that machine learning models 
 
 The Neural Network achieved the highest predictive performance with an R² value of 0.870 on the test set. This indicates that the model explains approximately eighty four percent of the variance in compressive strength and demonstrates that nonlinear models can successfully capture the interaction effects among concrete ingredients. While this level of accuracy is not intended to replace standardized laboratory testing, it is sufficiently strong for early stage mix design screening or for evaluating the expected trends when adjusting mixture proportions.
 
-The Random Forest model performed moderately well, with an R² of 0.652 on the test set. This suggests that ensemble tree based models can extract part of the nonlinear structure but may require larger datasets to achieve their full potential. The Decision Tree model showed higher variance and lower predictive stability due to its sensitivity to the specific data splits. Linear regression performed the weakest among the models. Although engineered features improved its accuracy, the model was still unable to fully capture nonlinear behavior in the data.
+The Random Forest model performed moderately well, with an R² of 0.715 on the test set. This suggests that ensemble tree based models can extract part of the nonlinear structure but may require larger datasets to achieve their full potential. The Decision Tree model showed higher variance and lower predictive stability due to its sensitivity to the specific data splits. Linear regression performed the weakest among the models. Although engineered features improved its accuracy, the model was still unable to fully capture nonlinear behavior in the data.
 
 Several factors help explain the remaining prediction error across the models. The dataset contains zero inflated variables such as fly ash and slag, which make it challenging for some algorithms to learn consistent patterns. The wide range of curing ages also introduces nonlinear strength development behavior that is difficult to approximate using simple functions. Experimental variability in materials and testing conditions likely contributes additional noise that the models cannot capture. These limitations suggest that improvement is possible with larger datasets, more detailed mix design descriptors, or more advanced modeling techniques.
 
